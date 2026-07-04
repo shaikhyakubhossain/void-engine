@@ -1,0 +1,10 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  width: 320px;
+  height: 100vh;
+
+  background: var(--sidebar-background);
+  border-right: 1px solid var(--border-color);
+}
