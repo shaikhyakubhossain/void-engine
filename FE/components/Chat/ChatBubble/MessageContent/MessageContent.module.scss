@@ -1,0 +1,29 @@
+.content {
+  max-width: 75%;
+
+  padding: 16px 20px;
+
+  border-radius: 18px;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+
+  line-height: 1.7;
+}
+
+.user {
+  background: linear-gradient(
+    135deg,
+    #7c5cff,
+    #53d3ff
+  );
+
+  color: white;
+}
+
+.assistant {
+  background: var(--surface);
+
+  color: var(--text-primary);
+}

@@ -1,0 +1,57 @@
+.chatBubble {
+  display: flex;
+  gap: 16px;
+}
+
+.user {
+  flex-direction: row-reverse;
+}
+
+.assistant {
+  flex-direction: row;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: .9rem;
+  font-weight: 600;
+
+  background: var(--surface);
+}
+
+.content {
+  max-width: 75%;
+
+  padding: 16px 20px;
+
+  border-radius: 18px;
+
+  background: var(--surface);
+
+  color: var(--text-primary);
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.user .content {
+  background: linear-gradient(
+    135deg,
+    #6d5dfc,
+    #4f9cff
+  );
+
+  color: white;
+}
