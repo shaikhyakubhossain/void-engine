@@ -3,15 +3,18 @@ import type { ChatMessage } from "@/types";
 import type {
   addMessage,
   clearChat,
+  setError,
   setInput,
   setLoading,
   setMessages,
 } from "./chat.actions";
 
 export interface ChatState {
+  conversationId?: string;
   messages: ChatMessage[];
   input: string;
   loading: boolean;
+  error: string | null;
 }
 
 export type ChatAction =
@@ -19,7 +22,8 @@ export type ChatAction =
   | ReturnType<typeof setLoading>
   | ReturnType<typeof addMessage>
   | ReturnType<typeof setMessages>
-  | ReturnType<typeof clearChat>;
+  | ReturnType<typeof clearChat>
+  | ReturnType<typeof setError>;
 
 export interface ChatContextType {
   chat: ChatState;

@@ -1,17 +1,18 @@
-import { ApiClient } from "../ApiClient";
+import { ApiClient } from "@/services/ApiClient";
 
 import type {
-  SendMessageRequest,
-  SendMessageResponse,
-} from "./chat.types";
+  ApiResponse,
+  CreateMessageRequest,
+  CreateMessageResponse,
+} from "@/types/api";
 
-const api = new ApiClient("/api");
+const apiClient = new ApiClient("/api");
 
 export class ChatService {
-  static sendMessage(
-    request: SendMessageRequest,
-  ) {
-    return api.post<SendMessageResponse>(
+  static async createMessage(
+    request: CreateMessageRequest,
+  ): Promise<ApiResponse<CreateMessageResponse>> {
+    return apiClient.post<ApiResponse<CreateMessageResponse>>(
       "/chat",
       request,
     );

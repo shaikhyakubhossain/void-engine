@@ -1,32 +1,39 @@
 "use client";
-import { useState } from "react";
+
 import styles from "./Chat.module.scss";
+
+import { useChat } from "@/hooks";
 
 import ChatHeader from "./ChatHeader";
 import EmptyState from "./EmptyState";
 import SuggestionGrid from "./SuggestionGrid";
+import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 
 const Chat = () => {
-  const [message, setMessage] = useState("");
+  const { chat, setInput, sendMessage } = useChat();
+
+  const hasMessages = chat.messages.length > 0;
 
   return (
     <main className={styles.chat}>
       <ChatHeader />
 
       <div className={styles.content}>
-        <EmptyState />
-
-        <SuggestionGrid />
+        {hasMessages ? (
+          <MessageList messages={chat.messages} />
+        ) : (
+          <>
+            <EmptyState />
+            <SuggestionGrid />
+          </>
+        )}
       </div>
 
       <ChatInput
-        value={message}
-        onChange={setMessage}
-        onSubmit={() => {
-          console.log(message);
-          setMessage("");
-        }}
+        value={chat.input}
+        onChange={setInput}
+        onSubmit={sendMessage}
       />
     </main>
   );

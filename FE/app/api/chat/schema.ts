@@ -11,6 +11,4 @@ export const SendMessageRequestSchema = z.object({
   messages: z.array(ChatMessageSchema).min(1),
 });
 
-export type SendMessageRequest = z.infer<
-  typeof SendMessageRequestSchema
->;
+export type SendMessageRequest = z.infer<typeof SendMessageRequestSchema>;

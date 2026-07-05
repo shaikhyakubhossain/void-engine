@@ -3,13 +3,13 @@ import {
   handleRoute,
   validateRequest,
 } from "@/server";
-import { SendMessageRequestSchema } from "./schema";
+import { CreateMessageRequestSchema } from "@/schemas/api/chat.schema"
 
 export async function POST(request: Request) {
   return handleRoute(async () => {
     const body = await validateRequest(
       request,
-      SendMessageRequestSchema,
+      CreateMessageRequestSchema,
     );
 
     return backendClient.post(

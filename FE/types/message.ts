@@ -10,7 +10,7 @@ export interface ChatMessage {
 
   content: string;
 
-  createdAt: Date;
+  createdAt?: Date;
 
   updatedAt?: Date;
 

@@ -5,6 +5,7 @@ export const ChatActionTypes = {
   SET_LOADING: "SET_LOADING",
   ADD_MESSAGE: "ADD_MESSAGE",
   SET_MESSAGES: "SET_MESSAGES",
+  SET_ERROR: "SET_ERROR",
   CLEAR_CHAT: "CLEAR_CHAT",
 } as const;
 
@@ -33,10 +34,16 @@ export const clearChat = () => ({
   type: ChatActionTypes.CLEAR_CHAT,
 });
 
+export const setError = (error: string | null) => ({
+  type: ChatActionTypes.SET_ERROR,
+  payload: error,
+});
+
 export const ChatActions = {
   setInput,
   setLoading,
   addMessage,
   setMessages,
   clearChat,
+  setError,
 };
