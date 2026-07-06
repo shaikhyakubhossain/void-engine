@@ -1,12 +1,49 @@
 import type { Request, Response } from "express";
+
 import { chat } from "../services/chat.service.js";
+import { createErrorResponse } from "../dto/common.dto.js";
+import { createMessageResponse } from "../dto/chat.dto.js";
+import { ErrorCode } from "../constants/errorCodes.js";
+import { AIProviderError } from "../errors/AIProviderError.js";
 
 export async function sendMessage(req: Request, res: Response) {
-    const { message, timeZone } = req.body;
+  const { messages, timeZone } = req.body;
 
-    const reply = await chat({message, timeZone});
+  const currentMessage = messages[messages.length - 1];
 
-    res.json({
-        reply,
+  try {
+    const reply = await chat({
+      message: currentMessage.content,
+      timeZone,
     });
+
+    if (reply === undefined) {
+      return res
+        .status(500)
+        .json(
+          createErrorResponse(
+            ErrorCode.CHAT_GENERATION_FAILED,
+            "Failed to generate a response.",
+          ),
+        );
+    }
+
+    return res.json(createMessageResponse(reply));
+  } catch (error: unknown) {
+  if (error instanceof AIProviderError) {
+    return res.status(error.status).json(
+      createErrorResponse(
+        error.code,
+        error.message,
+      ),
+    );
+  }
+
+  return res.status(500).json(
+    createErrorResponse(
+      ErrorCode.INTERNAL_SERVER_ERROR,
+      "An unexpected error occurred.",
+    ),
+  );
+}
 }

@@ -1,0 +1,20 @@
+export interface ApiErrorResponse {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+  };
+}
+
+export function createErrorResponse(
+  code: string,
+  message: string,
+): ApiErrorResponse {
+  return {
+    success: false,
+    error: {
+      code,
+      message,
+    },
+  };
+}
