@@ -6,10 +6,9 @@ import MessageActions from "./MessageActions";
 
 import type { ChatBubbleProps } from "./ChatBubble.types";
 
-const ChatBubble = ({
-  message,
-}: ChatBubbleProps) => {
+const ChatBubble = ({ message }: ChatBubbleProps) => {
   const isUser = message.role === "user";
+  const isAssistant = message.role === "assistant";
 
   return (
     <article
@@ -20,12 +19,9 @@ const ChatBubble = ({
       <MessageAvatar role={message.role} />
 
       <div className={styles.body}>
-        <MessageContent
-          role={message.role}
-          content={message.content}
-        />
+        <MessageContent role={message.role} content={message.content} />
 
-        {!isUser && <MessageActions />}
+        {isAssistant && <MessageActions />}
       </div>
     </article>
   );

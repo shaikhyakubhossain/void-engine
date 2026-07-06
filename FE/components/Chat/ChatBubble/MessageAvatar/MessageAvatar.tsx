@@ -22,7 +22,19 @@ const MessageAvatar = ({ role }: MessageAvatarProps) => {
     }
   };
 
-  return <div className={styles.avatar}>{getLabel()}</div>;
+  return (
+    <div
+      className={`${styles.avatar} ${
+        role === "user"
+          ? styles.user
+          : role === "assistant"
+            ? styles.assistant
+            : styles.system
+      }`}
+    >
+      {getLabel()}
+    </div>
+  );
 };
 
 export default MessageAvatar;

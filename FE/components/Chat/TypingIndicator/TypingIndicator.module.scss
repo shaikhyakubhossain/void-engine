@@ -10,24 +10,30 @@
 
     border-radius: 50%;
 
-    background: var(--text-secondary);
+    background: linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.9),
+      rgba(83, 211, 255, 0.1)
+    );
 
     animation: bounce 1.2s infinite;
   }
 
   span:nth-child(2) {
-    animation-delay: .2s;
+    animation-delay: 0.2s;
   }
 
   span:nth-child(3) {
-    animation-delay: .4s;
+    animation-delay: 0.4s;
   }
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
-    transform: scale(.7);
-    opacity: .4;
+  0%,
+  80%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.4;
   }
 
   40% {

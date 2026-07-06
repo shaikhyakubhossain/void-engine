@@ -1,4 +1,7 @@
 import { ValidationError } from "./validation";
+import { BackendClientError } from "@/server/BackendClient/BackendClientError";
+
+
 
 export const handleRoute = async <T>(
   callback: () => Promise<T>,
@@ -11,7 +14,11 @@ export const handleRoute = async <T>(
     if (error instanceof ValidationError) {
       return Response.json(
         {
-          error: error.message,
+          success: false,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: error.message,
+          },
           issues: error.issues,
         },
         {
@@ -20,6 +27,25 @@ export const handleRoute = async <T>(
       );
     }
 
-    throw error;
+    if (error instanceof BackendClientError) {
+      return Response.json(error.body, {
+        status: error.status,
+      });
+    }
+
+    console.error(error);
+
+    return Response.json(
+      {
+        success: false,
+        error: {
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An unexpected server error occurred.",
+        },
+      },
+      {
+        status: 500,
+      },
+    );
   }
 };

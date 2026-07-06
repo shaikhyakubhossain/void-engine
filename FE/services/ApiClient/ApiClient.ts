@@ -26,7 +26,15 @@ export class ApiClient {
     );
 
     if (!response.ok) {
-      throw new ApiClientError(response.status, response.statusText);
+      let errorBody: unknown;
+
+      try {
+        errorBody = await response.json();
+      } catch {
+        errorBody = undefined;
+      }
+
+      throw new ApiClientError(response.status, response.statusText, errorBody);
     }
 
     return response.json() as Promise<T>;

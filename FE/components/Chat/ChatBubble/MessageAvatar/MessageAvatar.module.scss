@@ -10,9 +10,31 @@
   justify-content: center;
   align-items: center;
 
-  background: var(--surface);
-
   color: var(--text-primary);
 
   font-weight: 600;
+}
+
+.user {
+  background: linear-gradient(
+  135deg,
+  rgba(124, 92, 255, 0.9),
+  rgba(83, 211, 255, 0.1)
+);
+}
+
+.assistant {
+  background: linear-gradient(
+  135deg,
+  rgba(231, 8, 8, 0.9),
+  rgba(196, 2, 255, 0.1)
+);
+}
+
+.system {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 92, 92, 0.3),
+    rgba(255, 211, 83, 0.3)
+  );
 }

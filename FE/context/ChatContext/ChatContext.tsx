@@ -22,46 +22,61 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const sendMessage = useCallback(async () => {
-  const trimmedInput = chat.input.trim();
+    const trimmedInput = chat.input.trim();
 
-  if (!trimmedInput) {
-    return;
-  }
-
-  const userMessage: ChatMessage = {
-    id: crypto.randomUUID(),
-    role: "user",
-    content: trimmedInput,
-  };
-
-  dispatch(ChatActions.addMessage(userMessage));
-  dispatch(ChatActions.setInput(""));
-  dispatch(ChatActions.setLoading(true));
-
-  try {
-    const response = await ChatService.createMessage({
-      conversationId: chat.conversationId,
-      messages: [...chat.messages, userMessage],
-    });
-
-    if (!response.success) {
-      dispatch(ChatActions.setError(response.error.message));
+    if (!trimmedInput) {
       return;
     }
 
-    dispatch(ChatActions.addMessage(response.data.message));
-  } catch (error) {
-    dispatch(
-      ChatActions.setError(
-        error instanceof Error
-          ? error.message
-          : "Something went wrong.",
-      ),
-    );
-  } finally {
-    dispatch(ChatActions.setLoading(false));
-  }
-}, [chat]);
+    const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: trimmedInput,
+    };
+
+    dispatch(ChatActions.addMessage(userMessage));
+    dispatch(ChatActions.setInput(""));
+    dispatch(ChatActions.setLoading(true));
+
+    try {
+      const response = await ChatService.createMessage({
+        conversationId: chat.conversationId,
+        messages: [...chat.messages, userMessage],
+      });
+
+
+      if (!response.success) {
+        dispatch(
+          ChatActions.addMessage({
+            id: crypto.randomUUID(),
+            role: "system",
+            content: response.error.message,
+          }),
+        );
+
+        return;
+      }
+
+      dispatch(ChatActions.addMessage(response.data.message));
+    } catch (error) {
+      console.log("Error sending message:", error);
+      dispatch(
+          ChatActions.addMessage({
+            id: crypto.randomUUID(),
+            role: "system",
+            content: error instanceof Error ? error.message : "Something went wrong.",
+          }),
+        );
+
+      dispatch(
+        ChatActions.setError(
+          error instanceof Error ? error.message : "Something went wrong.",
+        ),
+      );
+    } finally {
+      dispatch(ChatActions.setLoading(false));
+    }
+  }, [chat]);
 
   const value = useMemo(
     () => ({

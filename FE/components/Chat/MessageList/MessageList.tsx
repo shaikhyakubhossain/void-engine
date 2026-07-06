@@ -1,19 +1,29 @@
-import styles from "./MessageList.module.scss";
-import ChatBubble from "../ChatBubble";
-import type { MessageListProps } from "./MessageList.types";
+"use client";
 
-const MessageList = ({
-  messages,
-}: MessageListProps) => {
+import { useChat } from "@/hooks";
+
+import ChatBubble from "../ChatBubble";
+
+import styles from "./MessageList.module.scss";
+import TypingIndicator from "../TypingIndicator";
+
+const MessageList = () => {
+  const {
+    chat: { messages, loading  },
+  } = useChat();
+
+  console.log("MessageList messages:", messages);
+
   return (
-    <section className={styles.messageList}>
+    <div className={styles.messageList}>
       {messages.map((message) => (
         <ChatBubble
           key={message.id}
           message={message}
         />
       ))}
-    </section>
+      {loading && <TypingIndicator />}
+    </div>
   );
 };
 
