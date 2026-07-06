@@ -1,7 +1,5 @@
 import styles from "./MessageList.module.scss";
-
 import ChatBubble from "../ChatBubble";
-
 import type { MessageListProps } from "./MessageList.types";
 
 const MessageList = ({

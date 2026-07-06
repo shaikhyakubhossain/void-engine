@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     );
 
     return backendClient.post(
-      "/chat",
+      "/api/chat",
       body,
     );
   });
