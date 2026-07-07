@@ -1,7 +1,5 @@
 import { randomUUID } from "crypto";
 
-import type { ApiSuccessResponse } from "./common.dto.js";
-
 export interface ChatMessageDto {
   id: string;
   role: "assistant";
@@ -14,7 +12,7 @@ export interface CreateMessageResponse {
 
 export function createMessageResponse(
   content: string,
-): ApiSuccessResponse<CreateMessageResponse> {
+) {
   return {
     success: true,
     data: {
