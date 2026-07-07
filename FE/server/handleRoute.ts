@@ -1,13 +1,13 @@
 import { ValidationError } from "./validation";
 import { BackendClientError } from "@/server/BackendClient/BackendClientError";
 
-
-
-export const handleRoute = async <T>(
-  callback: () => Promise<T>,
-) => {
+export const handleRoute = async <T>(callback: () => Promise<T>) => {
   try {
     const result = await callback();
+
+    if (result instanceof Response) {
+      return result;
+    }
 
     return Response.json(result);
   } catch (error) {

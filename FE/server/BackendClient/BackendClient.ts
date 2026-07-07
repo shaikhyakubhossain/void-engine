@@ -5,19 +5,14 @@ import { buildBackendUrl } from "./BackendClient.utils";
 import type { BackendRequestOptions } from "./BackendClient.types";
 
 export class BackendClient {
-  constructor(
-    private readonly baseUrl: string,
-  ) {}
+  constructor(private readonly baseUrl: string) {}
 
   private async request<T>(
     path: string,
     options: BackendRequestOptions = {},
   ): Promise<T> {
     const response = await fetch(
-      `${this.baseUrl}${buildBackendUrl(
-        path,
-        options.query,
-      )}`,
+      `${this.baseUrl}${buildBackendUrl(path, options.query)}`,
       {
         ...options,
 
@@ -27,9 +22,7 @@ export class BackendClient {
         },
 
         body:
-          options.body !== undefined
-            ? JSON.stringify(options.body)
-            : undefined,
+          options.body !== undefined ? JSON.stringify(options.body) : undefined,
       },
     );
 
@@ -52,23 +45,52 @@ export class BackendClient {
     return response.json() as Promise<T>;
   }
 
-  get<T>(
+  private async requestStream(
     path: string,
-    options?: Omit<
-      BackendRequestOptions,
-      "body"
-    >,
-  ) {
+    options: BackendRequestOptions = {},
+  ): Promise<Response> {
+    const response = await fetch(
+      `${this.baseUrl}${buildBackendUrl(path, options.query)}`,
+      {
+        ...options,
+
+        headers: {
+          ...DEFAULT_BACKEND_HEADERS,
+          ...options.headers,
+        },
+
+        body:
+          options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      },
+    );
+
+    if (!response.ok) {
+      let errorBody: unknown;
+
+      try {
+        errorBody = await response.json();
+      } catch {
+        errorBody = undefined;
+      }
+
+      throw new BackendClientError(
+        response.status,
+        response.statusText,
+        errorBody,
+      );
+    }
+
+    return response;
+  }
+
+  get<T>(path: string, options?: Omit<BackendRequestOptions, "body">) {
     return this.request<T>(path, options);
   }
 
   post<T>(
     path: string,
     body?: unknown,
-    options?: Omit<
-      BackendRequestOptions,
-      "body"
-    >,
+    options?: Omit<BackendRequestOptions, "body">,
   ) {
     return this.request<T>(path, {
       ...options,
@@ -80,10 +102,7 @@ export class BackendClient {
   put<T>(
     path: string,
     body?: unknown,
-    options?: Omit<
-      BackendRequestOptions,
-      "body"
-    >,
+    options?: Omit<BackendRequestOptions, "body">,
   ) {
     return this.request<T>(path, {
       ...options,
@@ -95,10 +114,7 @@ export class BackendClient {
   patch<T>(
     path: string,
     body?: unknown,
-    options?: Omit<
-      BackendRequestOptions,
-      "body"
-    >,
+    options?: Omit<BackendRequestOptions, "body">,
   ) {
     return this.request<T>(path, {
       ...options,
@@ -107,20 +123,24 @@ export class BackendClient {
     });
   }
 
-  delete<T>(
-    path: string,
-    options?: Omit<
-      BackendRequestOptions,
-      "body"
-    >,
-  ) {
+  delete<T>(path: string, options?: Omit<BackendRequestOptions, "body">) {
     return this.request<T>(path, {
       ...options,
       method: "DELETE",
     });
   }
+
+  postStream(
+    path: string,
+    body?: unknown,
+    options?: Omit<BackendRequestOptions, "body">,
+  ) {
+    return this.requestStream(path, {
+      ...options,
+      method: "POST",
+      body,
+    });
+  }
 }
 
-export const backendClient = new BackendClient(
-  env.BACKEND_API_URL,
-);
+export const backendClient = new BackendClient(env.BACKEND_API_URL);

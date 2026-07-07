@@ -30,10 +30,29 @@ export const chatReducer = (
         messages: action.payload,
       };
 
+    case ChatActionTypes.SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case ChatActionTypes.CLEAR_CHAT:
       return {
         ...state,
         messages: [],
+      };
+
+    case ChatActionTypes.UPDATE_MESSAGE_CONTENT:
+      return {
+        ...state,
+        messages: state.messages.map((message) =>
+          message.id === action.payload.id
+            ? {
+                ...message,
+                content: message.content + action.payload.chunk,
+              }
+            : message,
+        ),
       };
 
     default:

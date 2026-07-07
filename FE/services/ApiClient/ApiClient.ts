@@ -40,6 +40,40 @@ export class ApiClient {
     return response.json() as Promise<T>;
   }
 
+  private async requestStream(
+    path: string,
+    options: RequestOptions = {},
+  ): Promise<Response> {
+    const response = await fetch(
+      `${this.baseUrl}${buildUrl(path, options.query)}`,
+      {
+        ...options,
+
+        headers: {
+          ...DEFAULT_HEADERS,
+          ...options.headers,
+        },
+
+        body:
+          options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      },
+    );
+
+    if (!response.ok) {
+      let errorBody: unknown;
+
+      try {
+        errorBody = await response.json();
+      } catch {
+        errorBody = undefined;
+      }
+
+      throw new ApiClientError(response.status, response.statusText, errorBody);
+    }
+
+    return response;
+  }
+
   get<T>(path: string, options?: Omit<RequestOptions, "body">) {
     return this.request<T>(path, options);
   }
@@ -80,6 +114,18 @@ export class ApiClient {
     return this.request<T>(path, {
       ...options,
       method: "DELETE",
+    });
+  }
+
+  postStream(
+    path: string,
+    body?: unknown,
+    options?: Omit<RequestOptions, "body">,
+  ) {
+    return this.requestStream(path, {
+      ...options,
+      method: "POST",
+      body,
     });
   }
 }

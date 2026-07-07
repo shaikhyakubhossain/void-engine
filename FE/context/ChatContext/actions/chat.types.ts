@@ -7,6 +7,7 @@ import type {
   setInput,
   setLoading,
   setMessages,
+  updateMessageContent,
 } from "./chat.actions";
 
 export interface ChatState {
@@ -23,7 +24,8 @@ export type ChatAction =
   | ReturnType<typeof addMessage>
   | ReturnType<typeof setMessages>
   | ReturnType<typeof clearChat>
-  | ReturnType<typeof setError>;
+  | ReturnType<typeof setError>
+  | ReturnType<typeof updateMessageContent>;
 
 export interface ChatContextType {
   chat: ChatState;

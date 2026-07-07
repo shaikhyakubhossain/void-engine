@@ -3,7 +3,7 @@ import {
   handleRoute,
   validateRequest,
 } from "@/server";
-import { CreateMessageRequestSchema } from "@/schemas/api/chat.schema"
+import { CreateMessageRequestSchema } from "@/schemas/api/chat.schema";
 
 export async function POST(request: Request) {
   return handleRoute(async () => {
@@ -12,9 +12,16 @@ export async function POST(request: Request) {
       CreateMessageRequestSchema,
     );
 
-    return backendClient.post(
+    const response = await backendClient.postStream(
       "/api/chat",
       body,
     );
+
+    return new Response(response.body, {
+      status: response.status,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+      },
+    });
   });
 }

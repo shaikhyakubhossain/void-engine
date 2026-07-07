@@ -9,6 +9,9 @@ import type { ChatBubbleProps } from "./ChatBubble.types";
 const ChatBubble = ({ message }: ChatBubbleProps) => {
   const isUser = message.role === "user";
   const isAssistant = message.role === "assistant";
+  const messageContentLength = message.content.length;
+
+  if (isAssistant && messageContentLength === 0) return null;
 
   return (
     <article

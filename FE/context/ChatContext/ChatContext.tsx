@@ -39,34 +39,45 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
     dispatch(ChatActions.setLoading(true));
 
     try {
-      const response = await ChatService.createMessage({
+      const assistantMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: "",
+      };
+
+      dispatch(ChatActions.addMessage(assistantMessage));
+
+      const reader = await ChatService.streamMessage({
         conversationId: chat.conversationId,
         messages: [...chat.messages, userMessage],
       });
 
+      const decoder = new TextDecoder();
 
-      if (!response.success) {
-        dispatch(
-          ChatActions.addMessage({
-            id: crypto.randomUUID(),
-            role: "system",
-            content: response.error.message,
-          }),
-        );
+      while (true) {
+        const { done, value } = await reader.read();
 
-        return;
+        if (done) {
+          break;
+        }
+
+        const chunk = decoder.decode(value, {
+          stream: true,
+        });
+
+        dispatch(ChatActions.updateMessageContent(assistantMessage.id, chunk));
       }
-
-      dispatch(ChatActions.addMessage(response.data.message));
     } catch (error) {
-      console.log("Error sending message:", error);
+      console.error("Error sending message:", error);
+
       dispatch(
-          ChatActions.addMessage({
-            id: crypto.randomUUID(),
-            role: "system",
-            content: error instanceof Error ? error.message : "Something went wrong.",
-          }),
-        );
+        ChatActions.addMessage({
+          id: crypto.randomUUID(),
+          role: "system",
+          content:
+            error instanceof Error ? error.message : "Something went wrong.",
+        }),
+      );
 
       dispatch(
         ChatActions.setError(

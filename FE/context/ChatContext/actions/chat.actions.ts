@@ -7,6 +7,7 @@ export const ChatActionTypes = {
   SET_MESSAGES: "SET_MESSAGES",
   SET_ERROR: "SET_ERROR",
   CLEAR_CHAT: "CLEAR_CHAT",
+  UPDATE_MESSAGE_CONTENT: "UPDATE_MESSAGE_CONTENT",
 } as const;
 
 
@@ -39,6 +40,17 @@ export const setError = (error: string | null) => ({
   payload: error,
 });
 
+export const updateMessageContent = (
+  id: string,
+  chunk: string,
+) => ({
+  type: ChatActionTypes.UPDATE_MESSAGE_CONTENT,
+  payload: {
+    id,
+    chunk,
+  },
+});
+
 export const ChatActions = {
   setInput,
   setLoading,
@@ -46,4 +58,5 @@ export const ChatActions = {
   setMessages,
   clearChat,
   setError,
+  updateMessageContent,
 };
