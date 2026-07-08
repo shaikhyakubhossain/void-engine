@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import hljs from "highlight.js";
+import useClipboard from "@/hooks/useClipboard";
+import { Check, Copy } from "lucide-react";
 
 import styles from "./CodeBlock.module.scss";
 
@@ -8,10 +10,12 @@ interface CodeBlockProps {
   code: string;
 }
 
-const CodeBlock = ({
-  language,
-  code,
-}: CodeBlockProps) => {
+const CodeBlock = ({ language, code }: CodeBlockProps) => {
+  const { copied, copy } = useClipboard();
+
+  const Icon = copied ? Check : Copy;
+  const label = copied ? "Copied" : "Copy";
+
   const highlightedCode = useMemo(() => {
     try {
       if (hljs.getLanguage(language)) {
@@ -29,10 +33,17 @@ const CodeBlock = ({
   return (
     <div className={styles.codeBlock}>
       <div className={styles.header}>
-        <span>{language}</span>
+        <span className={styles.language}>{language}</span>
 
-        <button>
-          Copy
+        <button
+          className={styles.copyButton}
+          type="button"
+          disabled={copied}
+          aria-label="Copy code to clipboard"
+          onClick={() => copy(code)}
+        >
+          <Icon size={16} />
+          <span>{label}</span>
         </button>
       </div>
 
