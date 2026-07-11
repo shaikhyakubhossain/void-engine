@@ -1,3 +1,4 @@
+import VoidLogo from "@/components/VoidLogo/VoidLogo";
 import styles from "./MessageAvatar.module.scss";
 import { MessageRole } from "@/types";
 
@@ -12,7 +13,7 @@ const MessageAvatar = ({ role }: MessageAvatarProps) => {
         return "U";
 
       case "assistant":
-        return "AI";
+        return <VoidLogo size={30} />;
 
       case "system":
         return "S";

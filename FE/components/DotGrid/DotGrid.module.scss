@@ -1,0 +1,51 @@
+.grid {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
+
+  place-items: center;
+
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dot {
+  --active: 0;
+
+  width: 2px;
+  height: 2px;
+
+  border-radius: 50%;
+
+  background: rgb(
+    calc(255 - var(--active) * 172),
+    calc(255 - var(--active) * 44),
+    255
+  );
+
+  transform: scale(calc(1 + var(--active) * 2.5));
+
+  opacity: calc(.12 + var(--active));
+
+  box-shadow:
+    0 0 calc(var(--active) * 6px)
+      rgba(83,211,255,.9),
+    0 0 calc(var(--active) * 18px)
+      rgba(83,211,255,.45),
+    0 0 calc(var(--active) * 30px)
+      rgba(124,92,255,.25);
+
+  transition:
+    transform .08s linear,
+    opacity .08s linear,
+    background .08s linear,
+    box-shadow .08s linear;
+
+  will-change:
+    transform,
+    opacity,
+    box-shadow;
+}

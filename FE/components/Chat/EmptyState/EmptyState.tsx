@@ -7,7 +7,7 @@ const EmptyState = () => {
     <section className={styles.emptyState}>
       <div className={styles.icon}>
         <Link href="https://github.com/shaikhyakubhossain/void-engine">
-          <VoidLogo size={40} />
+          <VoidLogo size={90} />
         </Link>
       </div>
 

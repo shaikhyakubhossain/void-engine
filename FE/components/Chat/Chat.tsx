@@ -3,6 +3,7 @@
 import styles from "./Chat.module.scss";
 
 import { useChat } from "@/hooks";
+import useAutoScroll from "@/hooks/useAutoScroll";
 
 import ChatHeader from "./ChatHeader";
 import EmptyState from "./EmptyState";
@@ -12,6 +13,9 @@ import ChatInput from "./ChatInput";
 
 const Chat = () => {
   const { chat, setInput, sendMessage } = useChat();
+  const { containerRef, handleScroll } = useAutoScroll<HTMLDivElement>([
+    chat.messages,
+  ]);
 
   const hasMessages = chat.messages.length > 0;
 
@@ -19,7 +23,11 @@ const Chat = () => {
     <main className={styles.chat}>
       <ChatHeader />
 
-      <div className={styles.content}>
+      <div
+        className={styles.content}
+        ref={containerRef}
+        onScroll={handleScroll}
+      >
         {hasMessages ? (
           <MessageList />
         ) : (

@@ -11,7 +11,7 @@ const SidebarHeader = () => {
 
       <div className={styles.content}>
         <h1>VoidEngine</h1>
-        <p>Premium Assistant</p>
+        <p>Cosmic Intelligence</p>
       </div>
     </header>
   );
