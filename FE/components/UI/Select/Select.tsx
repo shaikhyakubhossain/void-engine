@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import styles from "./Select.module.scss";
+
+import SelectTrigger from "./SelectTrigger";
+import SelectDropdown from "./SelectDropdown";
 
 import type { SelectProps } from "./Select.types";
 
@@ -16,22 +18,46 @@ const Select = ({
   onChange,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const [placement, setPlacement] = useState<"top" | "bottom">("bottom");
 
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = useMemo(
     () => options.find((option) => option.id === value),
     [options, value],
   );
 
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   const toggleDropdown = () => {
     if (!isOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
 
-      const dropdownHeight = 280; // temporary constant
+      const dropdownHeight = 280;
 
       const spaceBelow = window.innerHeight - rect.bottom;
+
       const spaceAbove = rect.top;
 
       setPlacement(
@@ -44,46 +70,31 @@ const Select = ({
     setIsOpen((open) => !open);
   };
 
-  return (
-    <div className={`${styles.select} ${className ?? ""}`}>
-      <button
-        ref={triggerRef}
-        type="button"
-        className={styles.trigger}
-        disabled={disabled}
-        onClick={toggleDropdown}
-      >
-        <span>{selectedOption?.label ?? placeholder}</span>
+  const handleSelect = (id: string) => {
+    onChange(id);
 
-        <ChevronDown
-          size={18}
-          className={`${styles.icon} ${isOpen ? styles.open : ""}`}
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={selectRef} className={`${styles.select} ${className ?? ""}`}>
+      <div ref={triggerRef}>
+        <SelectTrigger
+          label={selectedOption?.label ?? ""}
+          placeholder={placeholder}
+          disabled={disabled}
+          isOpen={isOpen}
+          onClick={toggleDropdown}
         />
-      </button>
+      </div>
 
       {isOpen && (
-        <div
-          className={`${styles.dropdown} ${
-            placement === "top" ? styles.dropdownTop : styles.dropdownBottom
-          }`}
-        >
-          {options.map((option) => (
-            <button
-              key={option.id}
-              type="button"
-              className={`${styles.option} ${
-                option.id === value ? styles.selected : ""
-              }`}
-              disabled={option.disabled}
-              onClick={() => {
-                onChange(option.id);
-                setIsOpen(false);
-              }}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        <SelectDropdown
+          value={value}
+          options={options}
+          placement={placement}
+          onSelect={handleSelect}
+        />
       )}
     </div>
   );

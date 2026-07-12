@@ -23,3 +23,33 @@ export interface SelectProps {
 
   onChange: (id: string) => void;
 }
+
+export interface SelectOptionProps {
+  option: SelectOption;
+
+  selected: boolean;
+
+  onSelect: (id: string) => void;
+}
+
+export interface SelectTriggerProps {
+  label: string;
+
+  placeholder: string;
+
+  disabled: boolean;
+
+  isOpen: boolean;
+
+  onClick: () => void;
+}
+
+export interface SelectDropdownProps {
+  value: string;
+
+  options: SelectOption[];
+
+  placement: "top" | "bottom";
+
+  onSelect: (id: string) => void;
+}

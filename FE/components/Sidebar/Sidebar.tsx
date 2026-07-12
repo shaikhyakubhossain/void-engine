@@ -1,6 +1,5 @@
 import SidebarHeader from "./SidebarHeader";
 import SidebarNav from "./SidebarNav";
-import SidebarUpgrade from "./SidebarUpgrade";
 import SidebarFooter from "./SidebarFooter";
 
 import styles from "./Sidebar.module.scss";
