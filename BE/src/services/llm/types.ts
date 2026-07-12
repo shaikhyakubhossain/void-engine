@@ -1,6 +1,16 @@
+export const AI_PROVIDERS = [
+  "gemini",
+  "grok",
+  "openai",
+  "claude",
+  "deepseek",
+] as const;
+
 export interface ChatOptions {
   message: string;
   systemPrompt?: string;
+  provider: AIProvider;
+  model: string;
   history?: {
     role: "user" | "assistant";
     content: string;
@@ -21,4 +31,38 @@ export interface PromptContext {
 export interface BuiltPrompt {
   systemInstruction: string;
   userMessage: string;
+}
+
+export type AIProvider = (typeof AI_PROVIDERS)[number];
+
+export interface ModelInfo {
+  id: string;
+  name: string;
+  provider: AIProvider;
+
+  description?: string;
+
+  supportsStreaming: boolean;
+  supportsVision: boolean;
+  supportsTools: boolean;
+
+  contextWindow?: number;
+
+  recommended?: boolean;
+
+  enabled?: boolean;
+}
+
+export interface GenerateOptions {
+  userMessage: string;
+  model: string;
+  timeZone?: string | undefined;
+}
+
+export interface LLMProvider {
+  readonly provider: AIProvider;
+
+  generate(options: GenerateOptions): AsyncGenerator<string>;
+
+  listModels(): Promise<ModelInfo[]>;
 }

@@ -6,12 +6,19 @@ import { ErrorCode } from "../constants/errorCodes.js";
 import { AIProviderError } from "../errors/AIProviderError.js";
 
 export async function sendMessage(req: Request, res: Response) {
-  const { messages, timeZone } = req.body;
+  const {
+    messages,
+    provider = "gemini",
+    model = "gemini-2.5-flash",
+    timeZone,
+  } = req.body;
 
   const currentMessage = messages[messages.length - 1];
 
   try {
     const stream = chat({
+      provider,
+      model,
       message: currentMessage.content,
       timeZone,
     });

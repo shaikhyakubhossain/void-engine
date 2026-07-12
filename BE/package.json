@@ -2,7 +2,7 @@
   "name": "voidengine",
   "version": "1.0.0",
   "description": "",
-   "main": "dist/server.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
@@ -23,6 +23,7 @@
     "@google/genai": "^2.10.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "zod": "^4.4.3"
   }
 }

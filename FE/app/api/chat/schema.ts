@@ -8,7 +8,10 @@ export const ChatMessageSchema = z.object({
 
 export const SendMessageRequestSchema = z.object({
   conversationId: z.string().optional(),
-  messages: z.array(ChatMessageSchema).min(1),
+  provider: z.enum(["gemini", "grok", "openai", "claude", "deepseek"]),
+  model: z.string(),
+  messages: z.array(ChatMessageSchema),
+  timeZone: z.string().optional(),
 });
 
 export type SendMessageRequest = z.infer<typeof SendMessageRequestSchema>;
