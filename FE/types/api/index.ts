@@ -7,3 +7,5 @@ export * from "./auth";
 export * from "./conversation";
 
 export * from "./model";
+
+export * from "./llm";

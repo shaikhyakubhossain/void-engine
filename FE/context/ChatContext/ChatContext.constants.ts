@@ -6,4 +6,15 @@ export const INITIAL_CHAT_STATE: ChatState = {
   input: "",
   loading: false,
   error: null,
+
+  llm: {
+    providers: [],
+    providerModels: [],
+
+    selectedProvider: null,
+    selectedModel: null,
+
+    loading: false,
+    error: null,
+  },
 };

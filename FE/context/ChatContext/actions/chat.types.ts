@@ -5,17 +5,39 @@ import type {
   clearChat,
   setError,
   setInput,
+  setLLMState,
   setLoading,
   setMessages,
+  setSelectedModel,
+  setSelectedProvider,
   updateMessageContent,
 } from "./chat.actions";
+import { ProviderInfo, ProviderModels } from "@/types/api/llm";
 
 export interface ChatState {
   conversationId?: string;
+
   messages: ChatMessage[];
+
   input: string;
+
   loading: boolean;
+
   error: string | null;
+
+  llm: {
+    providers: ProviderInfo[];
+
+    providerModels: ProviderModels[];
+
+    selectedProvider: string | null;
+
+    selectedModel: string | null;
+
+    loading: boolean;
+
+    error: string | null;
+  };
 }
 
 export type ChatAction =
@@ -25,6 +47,9 @@ export type ChatAction =
   | ReturnType<typeof setMessages>
   | ReturnType<typeof clearChat>
   | ReturnType<typeof setError>
+  | ReturnType<typeof setLLMState>
+  | ReturnType<typeof setSelectedProvider>
+  | ReturnType<typeof setSelectedModel>
   | ReturnType<typeof updateMessageContent>;
 
 export interface ChatContextType {
@@ -35,4 +60,8 @@ export interface ChatContextType {
   sendMessage: () => Promise<void>;
 
   clearChat: () => void;
+
+  setSelectedProvider: (provider: string) => void;
+
+  setSelectedModel: (model: string) => void;
 }

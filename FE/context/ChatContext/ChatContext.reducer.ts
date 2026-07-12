@@ -55,6 +55,41 @@ export const chatReducer = (
         ),
       };
 
+    case ChatActionTypes.SET_LLM_STATE:
+      return {
+        ...state,
+
+        llm: {
+          ...state.llm,
+
+          providers: action.payload.providers,
+          providerModels: action.payload.providerModels,
+
+          selectedProvider: action.payload.selectedProvider,
+          selectedModel: action.payload.selectedModel,
+        },
+      };
+
+    case ChatActionTypes.SET_SELECTED_PROVIDER:
+      return {
+        ...state,
+
+        llm: {
+          ...state.llm,
+          selectedProvider: action.payload,
+        },
+      };
+
+    case ChatActionTypes.SET_SELECTED_MODEL:
+      return {
+        ...state,
+
+        llm: {
+          ...state.llm,
+          selectedModel: action.payload,
+        },
+      };
+
     default:
       return state;
   }

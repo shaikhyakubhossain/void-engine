@@ -3,6 +3,8 @@ import styles from "./ChatInputActions.module.scss";
 import AttachmentButton from "./AttachmentButton";
 import VoiceButton from "./VoiceButton";
 import SendButton from "./SendButton";
+import ProviderSelector from "../../ProviderSelector/ProviderSelector";
+import ModelSelector from "../../ModelSelector/ModelSelector";
 
 interface ChatInputActionsProps {
   disabled?: boolean;
@@ -25,17 +27,18 @@ const ChatInputActions = ({
   isVoiceSupported = true,
   isListening = false,
 }: ChatInputActionsProps) => {
-
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
         <AttachmentButton disabled={disabled} onClick={onAttach} />
-
         <VoiceButton
           disabled={disabled || loading || !isVoiceSupported}
           listening={isListening}
           onClick={onVoice}
         />
+
+        <ProviderSelector />
+        <ModelSelector />
       </div>
 
       <SendButton disabled={disabled} loading={loading} onClick={onSubmit} />

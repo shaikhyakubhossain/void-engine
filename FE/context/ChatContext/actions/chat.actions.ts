@@ -1,4 +1,13 @@
-import type { ChatMessage } from "@/types";
+import type { ChatMessage, ProviderInfo, ProviderModels } from "@/types";
+interface SetLLMStatePayload {
+  providers: ProviderInfo[];
+
+  providerModels: ProviderModels[];
+
+  selectedProvider: string | null;
+
+  selectedModel: string | null;
+}
 
 export const ChatActionTypes = {
   SET_INPUT: "SET_INPUT",
@@ -8,8 +17,10 @@ export const ChatActionTypes = {
   SET_ERROR: "SET_ERROR",
   CLEAR_CHAT: "CLEAR_CHAT",
   UPDATE_MESSAGE_CONTENT: "UPDATE_MESSAGE_CONTENT",
+  SET_LLM_STATE: "SET_LLM_STATE",
+  SET_SELECTED_PROVIDER: "SET_SELECTED_PROVIDER",
+  SET_SELECTED_MODEL: "SET_SELECTED_MODEL",
 } as const;
-
 
 export const setInput = (value: string) => ({
   type: ChatActionTypes.SET_INPUT,
@@ -40,10 +51,22 @@ export const setError = (error: string | null) => ({
   payload: error,
 });
 
-export const updateMessageContent = (
-  id: string,
-  chunk: string,
-) => ({
+export const setLLMState = (payload: SetLLMStatePayload) => ({
+  type: ChatActionTypes.SET_LLM_STATE,
+  payload,
+});
+
+export const setSelectedProvider = (provider: string) => ({
+  type: ChatActionTypes.SET_SELECTED_PROVIDER,
+  payload: provider,
+});
+
+export const setSelectedModel = (model: string) => ({
+  type: ChatActionTypes.SET_SELECTED_MODEL,
+  payload: model,
+});
+
+export const updateMessageContent = (id: string, chunk: string) => ({
   type: ChatActionTypes.UPDATE_MESSAGE_CONTENT,
   payload: {
     id,
@@ -58,5 +81,8 @@ export const ChatActions = {
   setMessages,
   clearChat,
   setError,
+  setLLMState,
+  setSelectedProvider,
+  setSelectedModel,
   updateMessageContent,
 };

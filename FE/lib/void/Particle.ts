@@ -1,10 +1,7 @@
 import { GRID } from "./constants";
 import type { Particle } from "./types";
 
-export default function createParticle(
-  x: number,
-  y: number
-): Particle {
+export default function createParticle(x: number, y: number): Particle {
   return {
     x,
     y,
@@ -16,5 +13,6 @@ export default function createParticle(
     vy: 0,
 
     radius: GRID.radius,
+    brightness: 0,
   };
 }

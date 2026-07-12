@@ -4,7 +4,8 @@ import { ChatMessageSchema } from "../common/message.schema";
 
 export const CreateMessageRequestSchema = z.object({
   conversationId: z.string().optional(),
-
+  provider: z.string(),
+  model: z.string(),
   messages: z.array(ChatMessageSchema).min(1),
 });
 
