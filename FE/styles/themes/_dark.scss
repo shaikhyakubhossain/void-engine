@@ -1,0 +1,33 @@
+:root,
+[data-theme="dark"] {
+  --background: #090909;
+  --surface: #111111;
+  --surface-hover: #1b1b1b;
+  --sidebar-background: #0d0d0d;
+  --chat-background: #111111;
+
+  --border: #262626;
+  --border-light: #343434;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6b7280;
+
+  --primary: #7c3aed;
+  --primary-hover: #8b5cf6;
+
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --shadow: rgba(0, 0, 0, 0.3);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
