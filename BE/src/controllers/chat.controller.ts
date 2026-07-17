@@ -27,8 +27,8 @@ export async function sendMessage(req: Request, res: Response) {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
-    for await (const chunk of stream) {
-      res.write(chunk);
+    for await (const event of stream) {
+      res.write(JSON.stringify(event) + "\n");
     }
 
     res.end();

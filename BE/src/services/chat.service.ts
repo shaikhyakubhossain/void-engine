@@ -1,7 +1,10 @@
+import type { ChatEvent } from "../types/streamEvents.js";
 import { providerRegistry } from "./llm/registry.js";
 import type { ChatOptions } from "./llm/types.js";
 
-export async function* chat(options: ChatOptions) {
+export async function* chat(
+  options: ChatOptions,
+): AsyncGenerator<ChatEvent> {
   const provider = providerRegistry.get(options.provider);
 
   const stream = provider.generate({
@@ -11,6 +14,13 @@ export async function* chat(options: ChatOptions) {
   });
 
   for await (const chunk of stream) {
-    yield chunk;
+    yield {
+      type: "text.delta",
+      content: chunk,
+    };
   }
+
+  yield {
+    type: "done",
+  };
 }
