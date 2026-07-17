@@ -2,7 +2,7 @@
 
 import styles from "./Chat.module.scss";
 
-import { useChat } from "@/hooks";
+import { useChat, useNewChatNavigation } from "@/hooks";
 import useAutoScroll from "@/hooks/useAutoScroll";
 
 import ChatHeader from "./ChatHeader";
@@ -12,6 +12,7 @@ import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 
 const Chat = () => {
+  useNewChatNavigation();
   const { chat, setInput, sendMessage } = useChat();
   const { containerRef, handleScroll } = useAutoScroll<HTMLDivElement>([
     chat.messages,
