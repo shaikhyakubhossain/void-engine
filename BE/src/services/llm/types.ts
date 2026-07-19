@@ -4,6 +4,7 @@ export const AI_PROVIDERS = [
   "openai",
   "claude",
   "deepseek",
+  "openrouter",
 ] as const;
 
 export interface ChatOptions {

@@ -8,19 +8,16 @@ import { getCurrentDateTime } from "../../../../utils/dateTime.utils.js";
 import { buildPrompt } from "../../promptBuilder.js";
 import type { GenerateOptions, LLMProvider, ModelInfo } from "../../types.js";
 import type { Model } from "@google/genai";
+import { BaseProvider } from "../BaseProvider.js";
 
 type GeminiModel = Model;
 
-export class GeminiProvider implements LLMProvider {
+export class GeminiProvider extends BaseProvider implements LLMProvider {
   readonly provider = "gemini" as const;
 
   readonly displayName = "Google Gemini";
 
-  private modelsCache: ModelInfo[] | null = null;
-
-  private cacheExpiresAt = 0;
-
-  private static readonly CACHE_TTL = 1000 * 60 * 30;
+  protected readonly CACHE_TTL = 1000 * 60 * 30;
 
   async *generate({
     userMessage,
@@ -146,21 +143,4 @@ export class GeminiProvider implements LLMProvider {
     return availableModels;
   }
 
-  private sortModels(models: ModelInfo[]): void {
-    models.sort((a, b) => {
-      if (a.recommended && !b.recommended) return -1;
-      if (!a.recommended && b.recommended) return 1;
-
-      return a.name.localeCompare(b.name);
-    });
-  }
-
-  private hasValidCache(): boolean {
-    return this.modelsCache !== null && Date.now() < this.cacheExpiresAt;
-  }
-
-  private updateCache(models: ModelInfo[]): void {
-    this.modelsCache = models;
-    this.cacheExpiresAt = Date.now() + GeminiProvider.CACHE_TTL;
-  }
 }
