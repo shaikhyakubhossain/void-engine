@@ -24,6 +24,7 @@ const ModelSelector = () => {
         })) ?? []
       }
       onChange={setSelectedModel}
+      placeholder="Select a model"
     />
   );
 };

@@ -14,6 +14,7 @@ const ProviderSelector = () => {
         label: provider.name,
       }))}
       onChange={setSelectedProvider}
+      placeholder="Select a provider"
     />
   );
 };

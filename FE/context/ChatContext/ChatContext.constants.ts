@@ -1,7 +1,7 @@
 import type { ChatState } from "./actions/chat.types";
 
 export const INITIAL_CHAT_STATE: ChatState = {
-  conversationId: undefined,
+  conversationId: null,
   messages: [],
   input: "",
   loading: false,
@@ -20,7 +20,7 @@ export const INITIAL_CHAT_STATE: ChatState = {
 };
 
 export const INITIAL_SESSION_STATE = {
-  conversationId: undefined,
+  conversationId: null,
   messages: [],
   input: "",
   loading: false,

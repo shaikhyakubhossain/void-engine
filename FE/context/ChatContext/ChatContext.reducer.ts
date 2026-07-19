@@ -43,7 +43,14 @@ export const chatReducer = (
         ...INITIAL_SESSION_STATE,
       };
 
+    case ChatActionTypes.SET_CONVERSATION_ID:
+      return {
+        ...state,
+        conversationId: action.payload,
+      };
+
     case ChatActionTypes.UPDATE_MESSAGE_CONTENT:
+      console.log("Reducer:", action.payload.chunk);
       return {
         ...state,
         messages: state.messages.map((message) =>

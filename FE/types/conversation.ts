@@ -7,7 +7,7 @@ export interface Conversation {
 
   messages: ChatMessage[];
 
-  createdAt: Date;
+  createdAt: number;
 
-  updatedAt: Date;
+  updatedAt: number;
 }

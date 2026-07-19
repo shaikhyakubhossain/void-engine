@@ -13,9 +13,10 @@ import {
 import { INITIAL_CHAT_STATE } from "./ChatContext.constants";
 import { chatReducer } from "./ChatContext.reducer";
 import { ChatActions } from "./actions/chat.actions";
-import { ChatService, LLMService } from "@/services";
-import { ChatSessionService } from "@/session/ChatSessionService";
+import { ChatService, ConversationBuilder, LLMService } from "@/services";
 import { NDJSONStreamReader } from "@/services/stream";
+import { DEFAULT_CONVERSATION_TITLE } from "@/constants/conversation";
+import { ConversationStorage } from "@/services/storage/ConversationStorage";
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
@@ -55,14 +56,24 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const startNewChat = useCallback(() => {
-  clearChat();
-}, [clearChat]);
+    clearChat();
+  }, [clearChat]);
 
   const sendMessage = useCallback(async () => {
+    const now = Date.now();
+
     const trimmedInput = chat.input.trim();
 
     if (!trimmedInput) {
       return;
+    }
+    console.log("Current conversation:", chat.conversationId);
+    const conversationId = chat.conversationId ?? crypto.randomUUID();
+    const existingConversation = ConversationStorage.load(conversationId);
+
+    if (!chat.conversationId) {
+      dispatch(ChatActions.setConversationId(conversationId));
+      console.log("Generated:", conversationId);
     }
 
     const userMessage: ChatMessage = {
@@ -85,7 +96,7 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
       dispatch(ChatActions.addMessage(assistantMessage));
 
       const reader = await ChatService.streamMessage({
-        conversationId: chat.conversationId,
+        conversationId,
 
         provider: chat.llm.selectedProvider ?? "gemini",
 
@@ -95,10 +106,12 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
       });
 
       const stream = new NDJSONStreamReader<StreamEvent>();
+      let completeAssistantResponse = "";
 
       for await (const event of stream.read(reader)) {
         switch (event.type) {
           case "text.delta":
+            completeAssistantResponse += event.content;
             dispatch(
               ChatActions.updateMessageContent(
                 assistantMessage.id,
@@ -108,10 +121,20 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
             break;
 
           case "conversation.created":
-            console.log("Conversation:", event.conversationId);
             break;
 
           case "done":
+            const conversation = ConversationBuilder.build({
+              id: conversationId,
+              title: DEFAULT_CONVERSATION_TITLE,
+              existingCreatedAt: existingConversation?.createdAt,
+              previousMessages: chat.messages,
+              userMessage,
+              assistantMessage,
+              assistantContent: completeAssistantResponse,
+            });
+
+            ConversationStorage.save(conversation);
             break;
         }
       }
@@ -135,7 +158,13 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
     } finally {
       dispatch(ChatActions.setLoading(false));
     }
-  }, [chat.conversationId, chat.input, chat.llm.selectedModel, chat.llm.selectedProvider, chat.messages]);
+  }, [
+    chat.conversationId,
+    chat.input,
+    chat.llm.selectedModel,
+    chat.llm.selectedProvider,
+    chat.messages,
+  ]);
 
   const setSelectedProvider = useCallback((provider: string) => {
     dispatch(ChatActions.setSelectedProvider(provider));

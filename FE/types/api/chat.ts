@@ -1,7 +1,7 @@
 import type { ChatMessage } from "../message";
 
 export interface CreateMessageRequest {
-  conversationId?: string;
+  conversationId: string | null;
   messages: ChatMessage[];
   provider: string;
   model: string;

@@ -3,6 +3,7 @@ import type { ChatMessage } from "@/types";
 import type {
   addMessage,
   clearChat,
+  setConversationId,
   setError,
   setInput,
   setLLMState,
@@ -15,14 +16,14 @@ import type {
 import { ProviderInfo, ProviderModels } from "@/types/api/llm";
 
 export interface ChatState {
-  conversationId?: string;
+  conversationId: string | null;
 
   messages: ChatMessage[];
 
   input: string;
 
   loading: boolean;
-
+  
   error: string | null;
 
   llm: {
@@ -46,6 +47,9 @@ export type ChatAction =
   | ReturnType<typeof addMessage>
   | ReturnType<typeof setMessages>
   | ReturnType<typeof clearChat>
+
+  | ReturnType<typeof setConversationId>
+
   | ReturnType<typeof setError>
   | ReturnType<typeof setLLMState>
   | ReturnType<typeof setSelectedProvider>

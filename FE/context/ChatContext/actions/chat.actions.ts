@@ -16,6 +16,9 @@ export const ChatActionTypes = {
   SET_MESSAGES: "SET_MESSAGES",
   SET_ERROR: "SET_ERROR",
   CLEAR_CHAT: "CLEAR_CHAT",
+
+  SET_CONVERSATION_ID: "SET_CONVERSATION_ID",
+
   UPDATE_MESSAGE_CONTENT: "UPDATE_MESSAGE_CONTENT",
   SET_LLM_STATE: "SET_LLM_STATE",
   SET_SELECTED_PROVIDER: "SET_SELECTED_PROVIDER",
@@ -44,6 +47,11 @@ export const setMessages = (messages: ChatMessage[]) => ({
 
 export const clearChat = () => ({
   type: ChatActionTypes.CLEAR_CHAT,
+});
+
+export const setConversationId = (conversationId: string) => ({
+  type: ChatActionTypes.SET_CONVERSATION_ID,
+  payload: conversationId,
 });
 
 export const setError = (error: string | null) => ({
@@ -80,6 +88,9 @@ export const ChatActions = {
   addMessage,
   setMessages,
   clearChat,
+
+  setConversationId,
+
   setError,
   setLLMState,
   setSelectedProvider,
