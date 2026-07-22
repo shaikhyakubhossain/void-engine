@@ -27,6 +27,22 @@ export class ConversationManager {
     this.notify();
   }
 
+  static rename(id: string, title: string): void {
+    const conversation = ConversationStorage.load(id);
+
+    if (!conversation) {
+      return;
+    }
+
+    ConversationStorage.save({
+      ...conversation,
+      title,
+      updatedAt: Date.now(),
+    });
+
+    this.notify();
+  }
+
   static subscribe(listener: Listener): () => void {
     this.listeners.add(listener);
 
@@ -36,10 +52,8 @@ export class ConversationManager {
   }
 
   private static notify(): void {
-    const conversations = this.getAll();
-
-    for (const listener of this.listeners) {
-      listener(conversations);
-    }
+    this.listeners.forEach(listener =>
+  listener(this.getAll())
+);
   }
 }
