@@ -12,7 +12,7 @@ import { useConversations } from "@/hooks/useConversations";
 import { ChatSessionService } from "@/session/ChatSessionService";
 import Menu from "@/components/UI/Menu/Menu";
 import { useMemo } from "react";
-import { ConversationManager } from "@/services/conversation/ConversationManager";
+import { ConversationService } from "@/services/conversation/ConversationService";
 
 interface RecentConversationListProps {
   limit?: number;
@@ -58,19 +58,22 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
     action: ConversationMenuAction,
   ) => {
     switch (action) {
-      case "rename": {
-        const title = prompt("Rename conversation");
-        if (!title?.trim()) return;
-        ConversationManager.rename(conversationId, title.trim());
-        break;
-      }
-      case "pin":
-        console.log("Pin", conversationId);
+      case "rename":
+        ConversationService.rename(conversationId);
         break;
 
-      case "delete":
-        console.log("Delete", conversationId);
+      case "pin":
+        ConversationService.pin(conversationId);
         break;
+
+      case "delete": {
+        const confirmed = confirm("Delete this conversation?");
+        if (!confirmed) {
+          return;
+        }
+        ConversationService.remove(conversationId);
+        break;
+      }
     }
   };
 

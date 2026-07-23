@@ -1,0 +1,45 @@
+.group {
+  margin-bottom: 3rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.title {
+  margin: 0;
+
+  white-space: nowrap;
+
+  font-size: .85rem;
+
+  font-weight: 700;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+  color: var(--text-secondary);
+}
+
+.line {
+  flex: 1;
+
+  height: 1px;
+
+  opacity: .4;
+
+  background: var(--border-color);
+}
+
+.list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}

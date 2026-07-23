@@ -12,8 +12,8 @@ const Sidebar = () => {
       <SidebarNav />
       <HistorySection />
       <SidebarFooter
-        name="test"
-        email="testing@123.com"
+        name="Guest"
+        email=''
       />
     </aside>
   );
