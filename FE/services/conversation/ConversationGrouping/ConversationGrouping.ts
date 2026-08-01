@@ -32,7 +32,7 @@ export class ConversationGrouping {
         conversations: yesterday,
       },
       {
-        title: "Last 7 Days",
+        title: "This Week",
         conversations: last7Days,
       },
       {

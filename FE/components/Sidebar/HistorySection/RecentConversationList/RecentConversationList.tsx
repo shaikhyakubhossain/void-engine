@@ -13,6 +13,7 @@ import { ChatSessionService } from "@/session/ChatSessionService";
 import Menu from "@/components/UI/Menu/Menu";
 import { useMemo } from "react";
 import { ConversationService } from "@/services/conversation/ConversationService";
+import { useRouter } from "next/navigation";
 
 interface RecentConversationListProps {
   limit?: number;
@@ -24,6 +25,7 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
   const conversations = useConversations().slice(0, limit);
 
   const { loadConversation } = useChat();
+  const router = useRouter();
 
   const menuItems = useMemo(
     () => [
@@ -96,9 +98,10 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
             type="button"
             className={styles.item}
             onClick={() =>
-              ChatSessionService.loadConversation(
+              ChatSessionService.openConversation(
                 conversation.id,
                 loadConversation,
+                router,
               )
             }
           >

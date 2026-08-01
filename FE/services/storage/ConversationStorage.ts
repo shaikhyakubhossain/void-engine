@@ -35,7 +35,11 @@ export class ConversationStorage {
   }
 
   private static read(): Conversation[] {
-    const raw = localStorage.getItem(STORAGE_KEYS.CONVERSATIONS);
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    const raw = window.localStorage.getItem(STORAGE_KEYS.CONVERSATIONS);
 
     if (!raw) {
       return [];
@@ -45,13 +49,19 @@ export class ConversationStorage {
       return JSON.parse(raw) as Conversation[];
     } catch (error) {
       console.error("Failed to read conversations:", error);
-
       return [];
     }
   }
 
   private static write(conversations: Conversation[]): void {
-    localStorage.setItem(STORAGE_KEYS.CONVERSATIONS, JSON.stringify(conversations));
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.localStorage.setItem(
+      STORAGE_KEYS.CONVERSATIONS,
+      JSON.stringify(conversations),
+    );
   }
 
   private static sort(conversations: Conversation[]): Conversation[] {

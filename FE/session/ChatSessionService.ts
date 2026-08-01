@@ -1,14 +1,16 @@
 import { ConversationManager } from "@/services/conversation/ConversationManager";
 import { Conversation } from "@/types/conversation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export class ChatSessionService {
   static startNewChat(clearChat: () => void) {
     clearChat();
   }
 
-  static loadConversation(
+  static openConversation(
     conversationId: string,
     loadConversation: (conversation: Conversation) => void,
+    router: AppRouterInstance,
   ) {
     const conversation = ConversationManager.get(conversationId);
 
@@ -17,5 +19,7 @@ export class ChatSessionService {
     }
 
     loadConversation(conversation);
+
+    router.push("/");
   }
 }
