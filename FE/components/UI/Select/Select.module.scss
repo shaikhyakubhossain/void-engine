@@ -1,3 +1,5 @@
+@use "@/styles/abstracts/mixins" as *;
+
 .select {
   position: relative;
 
@@ -67,6 +69,8 @@
   border-radius: 0.75rem;
 
   z-index: 100;
+
+  @include custom-scrollbar;
 }
 
 .dropdownBottom {

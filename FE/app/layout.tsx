@@ -31,8 +31,8 @@ export default function RootLayout({
         <VoidBackground />
         <ChatProvider>
           <main className="flex min-h-screen w-full items-center">
-          <Sidebar />
-            {children}
+            <Sidebar />
+            <div className="h-dvh w-full">{children}</div>
           </main>
         </ChatProvider>
       </body>

@@ -13,13 +13,15 @@ const History = () => {
   return (
     <div className={styles.history}>
       <HistoryHeader />
-      {groups.map((group) => (
-        <HistoryGroup
-          key={group.title}
-          title={group.title}
-          conversations={group.conversations}
-        />
-      ))}
+      <div className={styles.historyGroupsContainer}>
+        {groups.map((group) => (
+          <HistoryGroup
+            key={group.title}
+            title={group.title}
+            conversations={group.conversations}
+          />
+        ))}
+      </div>
     </div>
   );
 };

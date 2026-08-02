@@ -107,7 +107,7 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
           >
             <MessageCircle size={20} />
 
-            <span className={styles.title}>{conversation.title}</span>
+            <span className={`${styles.title} truncate`}>{conversation.title}</span>
           </button>
 
           <Menu
