@@ -83,3 +83,18 @@
 
   color: var(--text-secondary);
 }
+
+.pinButton {
+  cursor: pointer;
+}
+
+.pinOff {
+  opacity: .8;
+
+  transition: opacity .2s ease;
+  
+}
+
+.pinButton:hover .pinOff {
+  opacity: 1;
+}

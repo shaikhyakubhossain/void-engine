@@ -4,6 +4,7 @@ import {
   MoreHorizontal,
   Pencil,
   Pin,
+  PinOff,
   Trash2,
 } from "lucide-react";
 import styles from "./ConversationList.module.scss";
@@ -106,7 +107,7 @@ const ConversationList = ({ title, conversations }: ConversationListProps) => {
           {conversation.pinned && (
             <button
               type="button"
-              className={styles.pinButton}
+              className={styles.pinOffButton}
               onClick={(event) => {
                 event.stopPropagation();
 
@@ -114,7 +115,7 @@ const ConversationList = ({ title, conversations }: ConversationListProps) => {
               }}
               aria-label="Unpin conversation"
             >
-              <Pin size={14} className={styles.pin} />
+              <PinOff size={14} className={styles.pin} />
             </button>
           )}
           <Menu
