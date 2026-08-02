@@ -46,6 +46,8 @@ export class ConversationBuilder {
                 now,
 
             updatedAt: now,
+
+            pinned: false,
         };
     }
 }
