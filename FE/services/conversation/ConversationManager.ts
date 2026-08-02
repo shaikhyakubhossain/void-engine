@@ -43,6 +43,22 @@ export class ConversationManager {
     this.notify();
   }
 
+  static togglePin(id: string): void {
+    const conversation = ConversationStorage.load(id);
+
+    if (!conversation) {
+      return;
+    }
+
+    ConversationStorage.save({
+      ...conversation,
+      pinned: !conversation.pinned,
+      updatedAt: Date.now(),
+    });
+
+    this.notify();
+  }
+
   static subscribe(listener: Listener): () => void {
     this.listeners.add(listener);
 
@@ -52,8 +68,6 @@ export class ConversationManager {
   }
 
   private static notify(): void {
-    this.listeners.forEach(listener =>
-  listener(this.getAll())
-);
+    this.listeners.forEach((listener) => listener(this.getAll()));
   }
 }

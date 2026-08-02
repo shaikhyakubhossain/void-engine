@@ -57,7 +57,6 @@ export const chatReducer = (
       };
 
     case ChatActionTypes.UPDATE_MESSAGE_CONTENT:
-      console.log("Reducer:", action.payload.chunk);
       return {
         ...state,
         messages: state.messages.map((message) =>

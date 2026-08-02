@@ -1,0 +1,10 @@
+@use "@/styles/abstracts/mixins" as *;
+
+.historySection {
+    height: 275px;
+    overflow-y: auto;
+
+
+  @include custom-scrollbar;
+
+}

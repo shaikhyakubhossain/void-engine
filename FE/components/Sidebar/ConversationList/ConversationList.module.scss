@@ -7,7 +7,7 @@
 .listItem {
   display: flex;
   align-items: center;
-  gap: 14px;
+  // gap: 14px;
 
   padding: 14px 18px;
 
@@ -43,7 +43,7 @@
 
   min-width: 0;
 
-  padding: 10px 12px;
+  padding-left: 10px;
 
   border: none;
   border-radius: 10px;
@@ -60,4 +60,26 @@
 .empty {
   padding: 12px;
   opacity: 0.6;
+}
+
+.sectionTitle {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.35rem;
+
+  margin: 0 0 0.5rem;
+
+  padding: 0 0.5rem;
+
+  font-size: 0.75rem;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+
+  color: var(--text-secondary);
 }

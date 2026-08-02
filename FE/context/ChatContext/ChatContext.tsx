@@ -28,8 +28,6 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
       try {
         const llmState = await LLMService.initialize();
 
-        console.log("Initialized:", llmState);
-
         dispatch(ChatActions.setLLMState(llmState));
       } catch (error) {
         console.error("Failed to initialize LLMs:", error);
@@ -67,13 +65,11 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
     if (!trimmedInput) {
       return;
     }
-    console.log("Current conversation:", chat.conversationId);
     const conversationId = chat.conversationId ?? crypto.randomUUID();
     const existingConversation = ConversationManager.get(conversationId);
 
     if (!chat.conversationId) {
       dispatch(ChatActions.setConversationId(conversationId));
-      console.log("Generated:", conversationId);
     }
 
     const userMessage: ChatMessage = {

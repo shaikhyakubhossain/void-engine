@@ -6,54 +6,52 @@ import {
   Pin,
   Trash2,
 } from "lucide-react";
-import styles from "./RecentConversationList.module.scss";
+import styles from "./ConversationList.module.scss";
 import { useChat } from "@/hooks/useChat";
-import { useConversations } from "@/hooks/useConversations";
 import { ChatSessionService } from "@/session/ChatSessionService";
 import Menu from "@/components/UI/Menu/Menu";
-import { useMemo } from "react";
 import { ConversationService } from "@/services/conversation/ConversationService";
 import { useRouter } from "next/navigation";
+import { ConversationManager } from "@/services/conversation/ConversationManager";
+import { Conversation } from "@/types";
+import type { ReactNode } from "react";
 
-interface RecentConversationListProps {
-  limit?: number;
+interface ConversationListProps {
+  conversations: Conversation[];
+
+  title?: ReactNode;
 }
 
 type ConversationMenuAction = "rename" | "pin" | "delete";
 
-const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
-  const conversations = useConversations().slice(0, limit);
+const ICON_SIZE = 16;
 
+const ConversationList = ({ title, conversations }: ConversationListProps) => {
   const { loadConversation } = useChat();
   const router = useRouter();
 
-  const menuItems = useMemo(
-    () => [
-      {
-        id: "rename",
-        label: "Rename",
-        icon: <Pencil size={16} />,
-      },
-      {
-        id: "pin",
-        label: "Pin",
-        icon: <Pin size={16} />,
-      },
-
-      {
-        id: "separator",
-        separator: true,
-      },
-
-      {
-        id: "delete",
-        label: "Delete",
-        icon: <Trash2 size={16} />,
-        danger: true,
-      },
-    ],
-    [],
-  );
+  const getMenuItems = (pinned: boolean) => [
+    {
+      id: "rename",
+      label: "Rename",
+      icon: <Pencil size={ICON_SIZE} />,
+    },
+    {
+      id: "pin",
+      label: pinned ? "Unpin" : "Pin",
+      icon: <Pin size={ICON_SIZE} />,
+    },
+    {
+      id: "separator",
+      separator: true,
+    },
+    {
+      id: "delete",
+      label: "Delete",
+      icon: <Trash2 size={ICON_SIZE} />,
+      danger: true,
+    },
+  ];
 
   const handleMenuSelect = (
     conversationId: string,
@@ -65,7 +63,7 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
         break;
 
       case "pin":
-        ConversationService.pin(conversationId);
+        ConversationManager.togglePin(conversationId);
         break;
 
       case "delete": {
@@ -79,19 +77,13 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
     }
   };
 
-  console.log(
-    conversations.map((c) => ({
-      id: c.id,
-      title: c.title,
-    })),
-  );
-
   if (conversations.length === 0) {
     return <div className={styles.empty}>No conversations yet.</div>;
   }
 
   return (
     <div className={styles.list}>
+      {title && <h3 className={styles.sectionTitle}>{title}</h3>}
       {conversations.map((conversation) => (
         <div key={conversation.id} className={styles.listItem}>
           <button
@@ -107,12 +99,27 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
           >
             <MessageCircle size={20} />
 
-            <span className={`${styles.title} truncate`}>{conversation.title}</span>
+            <span className={`${styles.title} truncate`}>
+              {conversation.title}
+            </span>
           </button>
+          {conversation.pinned && (
+            <button
+              type="button"
+              className={styles.pinButton}
+              onClick={(event) => {
+                event.stopPropagation();
 
+                ConversationManager.togglePin(conversation.id);
+              }}
+              aria-label="Unpin conversation"
+            >
+              <Pin size={14} className={styles.pin} />
+            </button>
+          )}
           <Menu
             className={styles.menu}
-            items={menuItems}
+            items={getMenuItems(conversation.pinned)}
             onSelect={(action) =>
               handleMenuSelect(
                 conversation.id,
@@ -128,4 +135,4 @@ const RecentConversationList = ({ limit = 4 }: RecentConversationListProps) => {
   );
 };
 
-export default RecentConversationList;
+export default ConversationList;
