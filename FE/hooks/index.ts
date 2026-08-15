@@ -1,3 +1,4 @@
+export { useToast } from "./useToast";
 export * from "./useChat";
 export * from "./useClipboard";
 export * from "./useSpeechRecognition";

@@ -1,9 +1,9 @@
 import { metadata } from "@/config/metadata";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.scss";
-import { ChatProvider } from "@/context/ChatContext/ChatContext";
 import VoidBackground from "@/components/VoidBackground";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { Providers } from "@/components/Providers/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +29,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <VoidBackground />
-        <ChatProvider>
+        <Providers>
           <main className="flex min-h-screen w-full items-center">
             <Sidebar />
             <div className="h-dvh w-full">{children}</div>
           </main>
-        </ChatProvider>
+        </Providers>
       </body>
     </html>
   );
