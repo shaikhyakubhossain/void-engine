@@ -3,10 +3,11 @@ export const ErrorCode = {
   INVALID_MODEL: "INVALID_MODEL",
   MODEL_NOT_FOUND: "MODEL_NOT_FOUND",
   RATE_LIMITED: "RATE_LIMITED",
+  EMAIL_ALREADY_EXISTS: "EMAIL_ALREADY_EXISTS",
   UNAUTHORIZED: "UNAUTHORIZED",
   VALIDATION_ERROR: "VALIDATION_ERROR",
   INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
+  INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
 } as const;
 
-export type ErrorCode =
-  (typeof ErrorCode)[keyof typeof ErrorCode];
+export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];

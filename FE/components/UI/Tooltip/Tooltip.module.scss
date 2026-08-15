@@ -1,0 +1,207 @@
+.tooltipWrapper {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+
+  padding: 7px 11px;
+
+  background: #090909;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 18px rgba(255, 255, 255, 0.08);
+
+  transition:
+    opacity 120ms ease,
+    visibility 120ms ease,
+    transform 120ms ease;
+}
+
+/* ─────────────────────────
+   Positions
+───────────────────────── */
+
+.tooltipWrapper[data-position="top"] .tooltip {
+  bottom: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.tooltipWrapper[data-position="bottom"] .tooltip {
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.tooltipWrapper[data-position="left"] .tooltip {
+  right: calc(100% + 9px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+}
+
+.tooltipWrapper[data-position="right"] .tooltip {
+  left: calc(100% + 9px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+/* ─────────────────────────
+   Show
+───────────────────────── */
+
+.tooltipWrapper:hover .tooltip,
+.tooltipWrapper:focus-within .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltipWrapper[data-position="top"]:hover .tooltip,
+.tooltipWrapper[data-position="top"]:focus-within .tooltip {
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltipWrapper[data-position="bottom"]:hover .tooltip,
+.tooltipWrapper[data-position="bottom"]:focus-within .tooltip {
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltipWrapper[data-position="left"]:hover .tooltip,
+.tooltipWrapper[data-position="left"]:focus-within .tooltip {
+  transform: translateY(-50%) translateX(0);
+}
+
+.tooltipWrapper[data-position="right"]:hover .tooltip,
+.tooltipWrapper[data-position="right"]:focus-within .tooltip {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ─────────────────────────
+   Glitch
+───────────────────────── */
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0;
+}
+
+.tooltipWrapper:hover .glitch::before,
+.tooltipWrapper:focus-within .glitch::before {
+  animation: glitch-before 350ms steps(2, end);
+}
+
+.tooltipWrapper:hover .glitch::after,
+.tooltipWrapper:focus-within .glitch::after {
+  animation: glitch-after 350ms steps(2, end);
+}
+
+.glitch::before {
+  color: #ff0055;
+}
+
+.glitch::after {
+  color: #00e5ff;
+}
+
+@keyframes glitch-before {
+  0% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  20% {
+    opacity: 0.8;
+    transform: translate(-2px, 1px);
+    clip-path: inset(20% 0 60% 0);
+  }
+
+  40% {
+    opacity: 0.8;
+    transform: translate(2px, -1px);
+    clip-path: inset(60% 0 15% 0);
+  }
+
+  60% {
+    opacity: 0.8;
+    transform: translate(-1px, 0);
+    clip-path: inset(40% 0 40% 0);
+  }
+
+  80% {
+    opacity: 0.5;
+    transform: translate(1px, 1px);
+    clip-path: inset(10% 0 70% 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes glitch-after {
+  0% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  20% {
+    opacity: 0.8;
+    transform: translate(2px, -1px);
+    clip-path: inset(55% 0 20% 0);
+  }
+
+  40% {
+    opacity: 0.8;
+    transform: translate(-2px, 1px);
+    clip-path: inset(15% 0 65% 0);
+  }
+
+  60% {
+    opacity: 0.8;
+    transform: translate(1px, 0);
+    clip-path: inset(70% 0 10% 0);
+  }
+
+  80% {
+    opacity: 0.5;
+    transform: translate(-1px, -1px);
+    clip-path: inset(30% 0 45% 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0);
+    clip-path: inset(0 0 0 0);
+  }
+}

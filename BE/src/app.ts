@@ -2,6 +2,7 @@ import "./services/llm/providers.js";
 
 import express from "express";
 import { corsMiddleware } from "./config/cors.js";
+import authRouter from "./routes/auth.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import llmRoutes from "./routes/llm.routes.js";
 
@@ -18,6 +19,7 @@ app.get("/health", (_, res) => {
   });
 });
 
+app.use("/api/auth", authRouter);
 app.use("/api/chat", chatRoutes);
 app.use("/api/llm", llmRoutes);
 
