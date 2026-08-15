@@ -1,0 +1,158 @@
+.menu {
+  position: absolute;
+
+  top: calc(100% + 0.5rem);
+
+  right: 0;
+
+  z-index: 100;
+
+  width: 360px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+
+  background: var(--background);
+
+  box-shadow: var(--shadow-lg);
+}
+
+.header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border-bottom: 1px solid var(--border-color);
+
+  h3 {
+    margin: 0;
+
+    font-size: 0.95rem;
+  }
+}
+
+.markAllButton {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 0.75rem;
+
+  color: var(--text-secondary);
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.markAllButton:hover {
+  color: var(--text-primary);
+}
+
+.empty {
+  padding: 2rem 1rem;
+
+  text-align: center;
+
+  font-size: 0.875rem;
+
+  color: var(--text-secondary);
+}
+
+.list {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.item {
+  width: 100%;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 0.6rem;
+
+  padding: 0.9rem 1rem;
+
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background: var(--background-secondary);
+}
+
+.unread {
+  background: var(--background-secondary);
+}
+
+.content {
+  strong {
+    display: block;
+
+    font-size: 0.875rem;
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+
+    font-size: 0.8rem;
+
+    color: var(--text-secondary);
+  }
+}
+
+.itemHeader {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.time {
+  flex-shrink: 0;
+
+  font-size: 0.7rem;
+
+  font-weight: 400;
+
+  color: var(--text-secondary);
+}
+
+.unreadIndicator {
+  flex-shrink: 0;
+
+  width: 7px;
+  height: 7px;
+
+  margin-top: 0.35rem;
+
+  border-radius: 50%;
+
+  background: var(--primary);
+}

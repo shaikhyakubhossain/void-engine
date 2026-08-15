@@ -1,8 +1,12 @@
+import { useState } from "react";
 import styles from "./EmptyState.module.scss";
 import VoidLogo from "@/components/VoidLogo/VoidLogo";
 import Link from "next/link";
+import { getPersonalizedGreeting, getRandomPostfix } from "./EmptyState.utils";
 
 const EmptyState = () => {
+  const [greeting] = useState(() => getPersonalizedGreeting(""));
+  const [postfix] = useState(() => getRandomPostfix());
   return (
     <section className={styles.emptyState}>
       <div className={styles.icon}>
@@ -11,7 +15,7 @@ const EmptyState = () => {
         </Link>
       </div>
 
-      <h1 className={styles.title}>How can I assist you today?</h1>
+      <h1 className={styles.title}>{greeting} {postfix}</h1>
 
       <p className={styles.description}>
         VoidEngine is ready to help with coding, writing, brainstorming, and

@@ -1,3 +1,4 @@
+export type { Notification, NotificationType } from "./notification";
 export * from "./conversation";
 export * from "./message";
 export * from "./model";

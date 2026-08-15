@@ -30,7 +30,7 @@ const ChatInputActions = ({
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
-        <AttachmentButton disabled={disabled} onClick={onAttach} />
+        {/* <AttachmentButton disabled={disabled} onClick={onAttach} /> */}
         <VoiceButton
           disabled={disabled || loading || !isVoiceSupported}
           listening={isListening}

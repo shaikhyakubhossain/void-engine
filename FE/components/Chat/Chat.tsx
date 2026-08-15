@@ -34,7 +34,7 @@ const Chat = () => {
         ) : (
           <>
             <EmptyState />
-            <SuggestionGrid />
+            {/* <SuggestionGrid /> */}
           </>
         )}
       </div>

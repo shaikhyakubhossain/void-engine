@@ -9,6 +9,8 @@
 }
 
 .iconButton {
+  position: relative;
+
   width: 42px;
   height: 42px;
 
@@ -31,4 +33,34 @@
     background: rgba(255,255,255,.08);
     color: var(--text-primary);
   }
+}
+
+.notificationWrapper {
+  position: relative;
+}
+
+.notificationBadge {
+  position: absolute;
+
+  top: -2px;
+  right: -2px;
+
+  min-width: 16px;
+  height: 16px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 3px;
+
+  border-radius: 999px;
+
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+
+  background: var(--primary);
+  color: var(--background);
 }

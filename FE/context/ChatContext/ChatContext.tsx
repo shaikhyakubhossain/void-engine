@@ -17,6 +17,8 @@ import { ChatService, ConversationBuilder, LLMService } from "@/services";
 import { NDJSONStreamReader } from "@/services/stream";
 import { ConversationManager } from "@/services/conversation/ConversationManager";
 import { ConversationTitleService } from "@/services/conversation/ConversationTitleService";
+import { NotificationManager } from "@/services/notification/NotificationManager";
+import { BrowserNotificationService } from "@/services/notification/BrowserNotificationService";
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
@@ -133,6 +135,24 @@ export const ChatProvider = ({ children }: PropsWithChildren) => {
             });
 
             ConversationManager.save(conversation);
+            if (document.hidden) {
+              const notification = {
+                id: crypto.randomUUID(),
+                type: "response_complete" as const,
+                conversationId,
+                title: "Response ready",
+                message: userMessage.content,
+                createdAt: Date.now(),
+                read: false,
+              };
+
+              NotificationManager.add(notification);
+
+              void BrowserNotificationService.show(notification.title, {
+                body: notification.message,
+                tag: notification.id,
+              });
+            }
             break;
         }
       }
