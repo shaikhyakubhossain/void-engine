@@ -1,11 +1,11 @@
-import { ErrorCode } from "../../constants";
-import type { AuthResponseDto, AuthUserDto } from "../../dto/auth/auth-response.dto";
-import type { LoginDto } from "../../dto/auth/login.dto";
-import type { RegisterDto } from "../../dto/auth/register.dto";
-import { AuthError } from "../../errors/AuthError";
-import { UserModel } from "../../models/User";
-import { generateToken } from "../../utils/jwt";
-import { comparePassword, hashPassword } from "../../utils/password";
+import { ErrorCode } from "../../constants/index.js";
+import type { AuthResponseDto, AuthUserDto } from "../../dto/auth/auth-response.dto.js";
+import type { LoginDto } from "../../dto/auth/login.dto.js";
+import type { RegisterDto } from "../../dto/auth/register.dto.js";
+import { AuthError } from "../../errors/AuthError.js";
+import { UserModel } from "../../models/User.js";
+import { generateToken } from "../../utils/jwt.js";
+import { comparePassword, hashPassword } from "../../utils/password.js";
 
 export class AuthService {
   static async register(data: RegisterDto): Promise<AuthUserDto> {
