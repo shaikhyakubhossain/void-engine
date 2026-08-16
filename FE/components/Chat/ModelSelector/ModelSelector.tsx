@@ -6,6 +6,7 @@ import { useChat } from "@/hooks/useChat";
 import { useToast } from "@/hooks/useToast";
 
 import Select from "@/components/UI/Select/Select";
+import { TOAST_MESSAGES, TOAST_TITLES } from "@/constants/toast.constants";
 
 const ModelSelector = () => {
   const { chat, setSelectedModel } = useChat();
@@ -24,13 +25,10 @@ const ModelSelector = () => {
   const handleModelChange = (model: string) => {
     setSelectedModel(model);
 
-    toast.info(
-      "Some models may be unavailable because VoidEngine is currently using a free-tier API key.",
-      {
-        title: "MODEL NOTICE",
-        duration: 10000,
-      },
-    );
+    toast.info(TOAST_MESSAGES.MODEL_NOTICE, {
+      title: TOAST_TITLES.MODEL_NOTICE,
+      position: "top-center",
+    });
   };
 
   return (

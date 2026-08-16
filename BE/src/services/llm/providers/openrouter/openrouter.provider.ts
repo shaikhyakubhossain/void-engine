@@ -52,6 +52,7 @@ export class OpenRouterProvider extends BaseProvider implements LLMProvider {
         }
       }
     } catch (error: unknown) {
+      console.error("Error in OpenRouterProvider.generate:", error);
       if (isApiError(error) && error.status === 429) {
         throw new AIProviderError(
           429,
@@ -106,34 +107,40 @@ export class OpenRouterProvider extends BaseProvider implements LLMProvider {
     }
 
     const { data } = await response.json();
-
+    console.log("Fetched OpenRouter models:", data);
     return data.map((model: OpenRouterModel) => this.toModelInfo(model));
   }
 
   private toModelInfo(model: OpenRouterModel): ModelInfo {
-  const modelInfo: ModelInfo = {
-    id: model.id,
-    name: model.name,
-    provider: "openrouter",
+    const modelInfo: ModelInfo = {
+      id: model.id,
+      name: model.name,
+      provider: "openrouter",
 
-    supportsStreaming: true,
-    supportsVision:
-      model.architecture?.input_modalities?.includes("image") ?? false,
-    supportsTools: true,
+      supportsStreaming: true,
+      supportsVision:
+        model.architecture?.input_modalities?.includes("image") ?? false,
+      supportsTools: true,
 
-    recommended: false,
-    enabled: true,
-  };
+      recommended: false,
+      enabled: true,
+    };
 
-  if (model.description) {
-    modelInfo.description = model.description;
+    if (model.description) {
+      modelInfo.description = model.description;
+    }
+
+    if (model.context_length !== undefined) {
+      modelInfo.contextWindow = model.context_length;
+    }
+
+    return modelInfo;
   }
 
-  if (model.context_length !== undefined) {
-    modelInfo.contextWindow = model.context_length;
+  private isFreeModel(model: OpenRouterModel): boolean {
+    return (
+      Number(model.pricing?.prompt ?? 1) === 0 &&
+      Number(model.pricing?.completion ?? 1) === 0
+    );
   }
-
-  return modelInfo;
-}
-
 }

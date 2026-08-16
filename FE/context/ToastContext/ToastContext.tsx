@@ -15,7 +15,7 @@ import type {
   ToastType,
 } from "./ToastContext.types";
 
-import { DEFAULT_TOAST_DURATION, MAX_TOASTS } from "./ToastContext.constants";
+import { DEFAULT_TOAST_DURATION, DEFAULT_TOAST_POSITION, MAX_TOASTS } from "./ToastContext.constants";
 import { ToastContainer } from "@/components/UI/Toast/ToastContainer";
 
 export const ToastContext = createContext<ToastContextValue | null>(null);
@@ -43,6 +43,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         message,
         title: options?.title,
         duration: options?.duration ?? DEFAULT_TOAST_DURATION,
+        position: options?.position ?? DEFAULT_TOAST_POSITION,
       };
 
       setToasts((current) => [...current, toast].slice(-MAX_TOASTS));

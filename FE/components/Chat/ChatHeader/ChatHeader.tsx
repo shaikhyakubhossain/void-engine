@@ -41,9 +41,9 @@ const ChatHeader = () => {
 
   return (
     <header className={styles.chatHeader}>
-      <button className={styles.iconButton} aria-label="Workspace">
+      {/* <button className={styles.iconButton} aria-label="Workspace">
         <Grid2X2 size={20} />
-      </button>
+      </button> */}
 
       <div ref={notificationRef} className={styles.notificationWrapper}>
         <button

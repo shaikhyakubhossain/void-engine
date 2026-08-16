@@ -3,7 +3,7 @@ import type { AuthResponseDto, AuthUserDto } from "../../dto/auth/auth-response.
 import type { LoginDto } from "../../dto/auth/login.dto";
 import type { RegisterDto } from "../../dto/auth/register.dto";
 import { AuthError } from "../../errors/AuthError";
-import { User } from "../../models/User";
+import { UserModel } from "../../models/User";
 import { generateToken } from "../../utils/jwt";
 import { comparePassword, hashPassword } from "../../utils/password";
 
@@ -11,7 +11,7 @@ export class AuthService {
   static async register(data: RegisterDto): Promise<AuthUserDto> {
     const email = data.email.trim().toLowerCase();
 
-    const existingUser = await User.findOne({
+    const existingUser = await UserModel.findOne({
       email,
     });
 
@@ -25,7 +25,7 @@ export class AuthService {
 
     const passwordHash = await hashPassword(data.password);
 
-    const user = await User.create({
+    const user = await UserModel.create({
       name: data.name.trim(),
       email,
       passwordHash,
@@ -41,7 +41,7 @@ export class AuthService {
   static async login(data: LoginDto): Promise<AuthResponseDto> {
     const email = data.email.trim().toLowerCase();
 
-    const user = await User.findOne({
+    const user = await UserModel.findOne({
       email,
     });
 
@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   static async getCurrentUser(userId: string): Promise<AuthUserDto> {
-  const user = await User.findById(userId);
+  const user = await UserModel.findById(userId);
 
   if (!user) {
     throw new AuthError(
