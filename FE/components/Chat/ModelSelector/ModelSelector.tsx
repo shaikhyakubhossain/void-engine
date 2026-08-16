@@ -7,20 +7,23 @@ import { useToast } from "@/hooks/useToast";
 
 import Select from "@/components/UI/Select/Select";
 import { TOAST_MESSAGES, TOAST_TITLES } from "@/constants/toast.constants";
+import { BrainCircuit } from "lucide-react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const ModelSelector = () => {
   const { chat, setSelectedModel } = useChat();
   const { toast } = useToast();
+  const isMobile = useIsMobile(768);
+
+  const selectedModel = useMemo(() => {
+    return isMobile ? "" : (chat.llm.selectedModel ?? "");
+  }, [chat.llm.selectedModel, isMobile]);
 
   const providerGroup = useMemo(() => {
     return chat.llm.providerModels.find(
-      (group) =>
-        group.provider.id === chat.llm.selectedProvider,
+      (group) => group.provider.id === chat.llm.selectedProvider,
     );
-  }, [
-    chat.llm.providerModels,
-    chat.llm.selectedProvider,
-  ]);
+  }, [chat.llm.providerModels, chat.llm.selectedProvider]);
 
   const handleModelChange = (model: string) => {
     setSelectedModel(model);
@@ -33,15 +36,17 @@ const ModelSelector = () => {
 
   return (
     <Select
-      value={chat.llm.selectedModel ?? ""}
+      value={selectedModel}
       options={
         providerGroup?.models.map((model) => ({
           id: model.id,
           label: model.name,
         })) ?? []
       }
+      icon={<BrainCircuit size={18} />}
+      iconPosition="left"
       onChange={handleModelChange}
-      placeholder="Select a model"
+      placeholder={isMobile ? "" : "Select a model"}
     />
   );
 };

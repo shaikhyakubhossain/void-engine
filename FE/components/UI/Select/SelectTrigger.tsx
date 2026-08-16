@@ -11,6 +11,8 @@ const SelectTrigger = ({
   placeholder,
   disabled,
   isOpen,
+  icon,
+  iconPosition = "left",
   onClick,
 }: SelectTriggerProps) => {
   return (
@@ -20,7 +22,14 @@ const SelectTrigger = ({
       disabled={disabled}
       onClick={onClick}
     >
+      {icon && iconPosition === "left" && (
+        <span className={styles.icon}>{icon}</span>
+      )}
       <span>{label || placeholder}</span>
+
+      {icon && iconPosition === "right" && (
+        <span className={styles.icon}>{icon}</span>
+      )}
 
       <ChevronDown
         size={18}

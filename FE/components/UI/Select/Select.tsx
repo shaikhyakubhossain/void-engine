@@ -15,10 +15,11 @@ const Select = ({
   placeholder = "Select...",
   disabled = false,
   className,
+  icon,
+  iconPosition = "left",
   onChange,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [placement, setPlacement] = useState<"top" | "bottom">("bottom");
 
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,6 @@ const Select = ({
       const dropdownHeight = 280;
 
       const spaceBelow = window.innerHeight - rect.bottom;
-
       const spaceAbove = rect.top;
 
       setPlacement(
@@ -72,7 +72,6 @@ const Select = ({
 
   const handleSelect = (id: string) => {
     onChange(id);
-
     setIsOpen(false);
   };
 
@@ -84,6 +83,8 @@ const Select = ({
           placeholder={placeholder}
           disabled={disabled}
           isOpen={isOpen}
+          icon={icon}
+          iconPosition={iconPosition}
           onClick={toggleDropdown}
         />
       </div>

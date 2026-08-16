@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+export type SelectIconPosition = "left" | "right";
+
 export interface SelectOption {
   id: string;
 
@@ -21,6 +24,10 @@ export interface SelectProps {
 
   className?: string;
 
+  icon?: ReactNode;
+  
+  iconPosition?: SelectIconPosition;
+
   onChange: (id: string) => void;
 }
 
@@ -40,6 +47,10 @@ export interface SelectTriggerProps {
   disabled: boolean;
 
   isOpen: boolean;
+
+  icon?: ReactNode;
+  
+  iconPosition?: "left" | "right";
 
   onClick: () => void;
 }
