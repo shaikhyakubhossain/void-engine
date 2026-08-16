@@ -1,80 +1,126 @@
-# VoidEngine
+# Void Engine AI
 
-A sleek full-stack AI chat experience built with Next.js on the frontend and Express on the backend. VoidEngine brings together a polished chat UI, streaming responses, markdown rendering, and model/provider selection in one modern app.
+Void Engine AI is a full-stack AI chat application with a Next.js frontend and an Express + TypeScript backend. The project is designed around a streaming chat experience, conversation history, user authentication, and multi-provider LLM integration.
 
-## ✨ What makes it special
+## Overview
 
-- Beautiful chat-first interface with a minimal, futuristic feel
-- Streaming AI responses for a more interactive experience
-- Rich markdown support with syntax-highlighted code blocks
-- Flexible model and provider selection
-- Clear separation between frontend and backend services for fast iteration
+The app combines:
 
-## 🛠 Tech stack
+- A modern chat UI in Next.js
+- Server-side LLM orchestration in Express
+- Streaming responses from AI providers
+- MongoDB-backed persistence for users and conversations
+- Model and provider switching for multiple AI backends
+- Authentication with JWT-based protected routes
+
+## Tech stack
 
 ### Frontend
 - Next.js 16
 - React 19
 - TypeScript
-- Sass + Tailwind-based styling
-- Custom chat components and markdown rendering
+- Sass styling
+- Markdown rendering with syntax highlighting
+- Local conversation management and state-driven chat experience
 
 ### Backend
 - Express.js
 - TypeScript
-- Zod for validation
-- Google Gemini API integration
+- MongoDB + Mongoose
+- JWT auth
+- Google Gemini and OpenRouter integrations
+- Zod-based validation patterns and structured API responses
 
-## 📁 Project structure
+## Main features
+
+- AI chat interface with streaming text responses
+- Conversation creation, listing, retrieval, update, and deletion
+- User registration and login
+- Protected API routes for authenticated users
+- Provider and model selection in the chat flow
+- Message history used for conversation continuity
+- Browser notification support for completed responses
+- Markdown rendering and code block styling for AI output
+
+## Project structure
 
 ```text
-BE/      # Express API and AI provider integration
-FE/      # Next.js frontend and chat UI
+voidcore/
+├── BE/                    # Express API and AI integration layer
+│   ├── src/
+│   │   ├── config/        # env, CORS, DB, LLM config
+│   │   ├── controllers/   # auth, chat, llm, conversation handlers
+│   │   ├── middleware/    # auth middleware
+│   │   ├── models/        # MongoDB schemas
+│   │   ├── routes/        # REST routes
+│   │   ├── services/      # business logic and LLM providers
+│   │   └── utils/         # JWT/password helpers
+│   └── package.json
+├── FE/                    # Next.js frontend app
+│   ├── app/               # App Router pages and API handlers
+│   ├── components/        # Chat, sidebar, markdown, UI blocks
+│   ├── context/           # Chat and toast state
+│   ├── hooks/             # custom hooks
+│   ├── services/          # API and state services
+│   └── package.json
+├── README.md
+├── LICENSE
+└── package.json (if present in repo root)
 ```
 
-## 🚀 Getting started
+## Environment variables
 
-### Prerequisites
+### Backend (BE/.env)
 
-- Node.js 18+
-- npm
-- A Gemini API key from Google AI Studio
-
-### 1) Install dependencies
-
-```bash
-git clone <your-repo-url>
-cd voidcore
-
-cd FE && npm install
-cd ../BE && npm install
-```
-
-### 2) Configure environment variables
-
-Create a file named `.env` inside the backend folder:
+Create a `.env` file inside the `BE` folder:
 
 ```env
 PORT=5000
+CLIENT_URL=http://localhost:3000
+JWT_SECRET=your_super_secret_jwt_key
+MONGODB_URI=mongodb://localhost:27017/voidcore
 GEMINI_API_KEY=your_gemini_api_key
+OPENROUTER_API_KEY=your_openrouter_api_key
+MONGODB_DNS_SERVER=optional_dns_server_for_mongo
 ```
 
-Create a file named `.env.local` inside the frontend folder:
+Notes:
+- `CLIENT_URL` is required for the backend CORS configuration.
+- `GEMINI_API_KEY` is used for Gemini-powered chat responses.
+- `OPENROUTER_API_KEY` enables the OpenRouter provider integration.
+- `JWT_SECRET` is required for authenticated endpoints.
+
+### Frontend (FE/.env or FE/.env.local)
 
 ```env
 BACKEND_API_URL=http://localhost:5000
 ```
 
-### 3) Run the app locally
+## Getting started
 
-Start the backend:
+### 1) Install dependencies
+
+```bash
+cd FE && npm install
+cd ../BE && npm install
+```
+
+### 2) Start the backend
 
 ```bash
 cd BE
 npm run dev
 ```
 
-Start the frontend in a second terminal:
+The backend listens on the configured `PORT` and exposes a health check at:
+
+```text
+http://localhost:5000/health
+```
+
+### 3) Start the frontend
+
+In a separate terminal:
 
 ```bash
 cd FE
@@ -83,44 +129,58 @@ npm run dev
 
 Then open:
 
-- Frontend: http://localhost:3000
-- Backend health check: http://localhost:5000/health
+```text
+http://localhost:3000
+```
 
-## 🧪 Available scripts
+## Available scripts
 
 ### Frontend
 
 ```bash
 cd FE
-npm run dev      # start development server
-npm run build    # create production build
-npm run lint     # run lint checks
+npm run dev
+npm run build
+npm run lint
+npm run plop
 ```
 
 ### Backend
 
 ```bash
 cd BE
-npm run dev      # start development server with tsx watch
-npm run build    # compile TypeScript
-npm run start    # run built server
+npm run dev
+npm run build
+npm run start
 ```
 
-## 🔥 Features at a glance
+## API overview
 
-- Real-time AI chat experience
-- Markdown rendering for structured responses
-- Code block styling and syntax highlighting
-- Provider/model switching for different AI backends
-- Clean, modular architecture for future expansion
+The backend exposes routes under the main API surface:
 
-## 🧭 Roadmap
+### Auth
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
 
-- Add authentication and user accounts
-- Persist chat history in a database
-- Support additional AI providers
-- Improve conversation search and organization
+### Chat
+- `POST /api/chat` or chat streaming routes defined in the app layer
 
-## 📄 License
+### LLM metadata
+- `GET /api/llm/providers`
+- `GET /api/llm/models`
+
+### Conversations
+- `GET /api/conversations`
+- `GET /api/conversations/:id`
+- `POST /api/conversations`
+- `PATCH /api/conversations/:id`
+- `DELETE /api/conversations/:id`
+
+## Notes
+
+This project is actively evolving. Some parts of the frontend and backend are structured for future expansion, while the current app already supports a working chat flow, persistent conversation management, and multiple model/provider integrations.
+
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
