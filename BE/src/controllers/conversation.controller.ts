@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 
 import { ErrorCode } from "../constants/errorCodes.js";
 import { createErrorResponse } from "../dto/common.dto.js";
-import { createConversation, deleteConversation, getConversation, getUserConversations, updateConversationTitle } from "../services/conversation.service.js";
+import { createConversation, deleteConversation, getConversation, getUserConversations, updateConversationTitle } from "../services/conversation/conversation.service.js";
 import type { AuthenticatedRequest } from "../middleware/auth.middleware.js";
 
 export async function create(

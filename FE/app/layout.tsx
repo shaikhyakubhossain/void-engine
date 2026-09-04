@@ -31,7 +31,6 @@ export default function RootLayout({
         <VoidBackground />
         <Providers>
           <main className="flex min-h-screen w-full items-center">
-            <Sidebar />
             <div className="h-dvh w-full">{children}</div>
           </main>
         </Providers>

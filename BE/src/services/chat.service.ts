@@ -19,8 +19,4 @@ export async function* chat(
       content: chunk,
     };
   }
-
-  yield {
-    type: "done",
-  };
 }

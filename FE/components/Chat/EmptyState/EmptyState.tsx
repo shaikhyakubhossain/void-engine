@@ -3,9 +3,11 @@ import styles from "./EmptyState.module.scss";
 import VoidLogo from "@/components/VoidLogo/VoidLogo";
 import Link from "next/link";
 import { getPersonalizedGreeting, getRandomPostfix } from "./EmptyState.utils";
+import { useAuth } from "@/hooks/useAuth";
 
 const EmptyState = () => {
-  const [greeting] = useState(() => getPersonalizedGreeting(""));
+  const { user } = useAuth();
+  const [greeting] = useState(() => getPersonalizedGreeting(user?.name || ""));
   const [postfix] = useState(() => getRandomPostfix());
   return (
     <section className={styles.emptyState}>

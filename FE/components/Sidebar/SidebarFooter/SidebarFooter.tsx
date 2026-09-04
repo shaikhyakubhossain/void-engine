@@ -5,15 +5,19 @@ import { ChevronUp } from "lucide-react";
 
 import styles from "./SidebarFooter.module.scss";
 import type { SidebarFooterProps } from "./SidebarFooter.types";
+import { useRouter } from "next/navigation";
 
 const SidebarFooter = ({
   name,
   email,
   avatar,
 }: SidebarFooterProps) => {
+
+  const router = useRouter();
+
   return (
     <footer className={styles.sidebarFooter}>
-      <button className={styles.profileButton}>
+      <button className={styles.profileButton} onClick={() => !email && router.push("/login")}>
         <div className={styles.avatar}>
           {avatar ? (
             <Image
