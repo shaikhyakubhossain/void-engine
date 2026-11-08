@@ -16,22 +16,24 @@ export const SIDEBAR_NAV_ITEMS: SidebarNavItem[] = [
     href: "/",
     icon: PlusSquare,
   },
+  // Deprecated
   // {
   //   id: "history",
   //   label: "History",
   //   href: "/history",
   //   icon: History,
   // },
-  {
-    id: "templates",
-    label: "Templates",
-    href: "/templates",
-    icon: Sparkles,
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
+  // templets and settings will be added in future
+  // {
+  //   id: "templates",
+  //   label: "Templates",
+  //   href: "/templates",
+  //   icon: Sparkles,
+  // },
+  // {
+  //   id: "settings",
+  //   label: "Settings",
+  //   href: "/settings",
+  //   icon: Settings,
+  // },
 ];
