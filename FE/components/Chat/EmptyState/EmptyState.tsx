@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./EmptyState.module.scss";
 import VoidLogo from "@/components/VoidLogo/VoidLogo";
 import Link from "next/link";
@@ -7,8 +7,15 @@ import { useAuth } from "@/hooks/useAuth";
 
 const EmptyState = () => {
   const { user } = useAuth();
-  const [greeting] = useState(() => getPersonalizedGreeting(user?.name || ""));
-  const [postfix] = useState(() => getRandomPostfix());
+  const [greeting, setGreeting] = useState("");
+  const [postfix, setPostfix] = useState("");
+
+  useEffect(() => {
+    setGreeting(getPersonalizedGreeting(user?.name || ""));
+    setPostfix(getRandomPostfix());
+    
+  }, [user?.name]);
+
   return (
     <section className={styles.emptyState}>
       <div className={styles.icon}>

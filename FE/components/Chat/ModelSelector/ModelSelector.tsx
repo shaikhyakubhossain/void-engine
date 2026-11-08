@@ -9,6 +9,7 @@ import Select from "@/components/UI/Select/Select";
 import { TOAST_MESSAGES, TOAST_TITLES } from "@/constants/toast.constants";
 import { BrainCircuit } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import Skeleton from "@/components/UI/Skeleton/Skeleton";
 
 const ModelSelector = () => {
   const { chat, setSelectedModel } = useChat();
@@ -35,7 +36,7 @@ const ModelSelector = () => {
   };
 
   return (
-    <Select
+    chat.llm.providers.length > 0 ? <Select
       value={selectedModel}
       options={
         providerGroup?.models.map((model) => ({
@@ -47,7 +48,7 @@ const ModelSelector = () => {
       iconPosition="left"
       onChange={handleModelChange}
       placeholder={isMobile ? "" : "Select a model"}
-    />
+    /> : <Skeleton width={isMobile ? "30px" : "150px"} height="30px" borderRadius="6px" animated={true} />
   );
 };
 

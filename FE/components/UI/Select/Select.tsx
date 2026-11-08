@@ -75,8 +75,6 @@ const Select = ({
     setIsOpen(false);
   };
 
-  console.log(options)
-
   return (
     <div ref={selectRef} className={`${styles.select} ${className ?? ""}`}>
       <div ref={triggerRef}>

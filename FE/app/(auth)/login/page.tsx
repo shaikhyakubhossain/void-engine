@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/hooks/useAuth";
-import styles from "./login.module.scss";
+import styles from "../styles.module.scss";
 
 export default function LoginPage() {
   const router = useRouter();

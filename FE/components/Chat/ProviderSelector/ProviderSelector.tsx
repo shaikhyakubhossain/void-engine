@@ -4,6 +4,7 @@ import { useChat } from "@/hooks/useChat";
 import { Brain } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useMemo } from "react";
+import Skeleton from "@/components/UI/Skeleton/Skeleton";
 
 const ProviderSelector = () => {
   const { chat, setSelectedProvider } = useChat();
@@ -20,15 +21,15 @@ const ProviderSelector = () => {
   }, [chat.llm.providers]);
 
   return (
-    <Select
+   chat.llm.providers.length > 0 ? <Select
       value={selectedProvider}
       options={options}
       icon={<Brain size={18} />}
       iconPosition="left"
       onChange={setSelectedProvider}
       placeholder={isMobile ? "" : "Select a provider"}
-    />
-  );
+    /> : <Skeleton width={isMobile ? "30px" : "150px"} height="30px" borderRadius="6px" animated={true} />
+  );  
 };
 
 export default ProviderSelector;
